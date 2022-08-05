@@ -1,6 +1,11 @@
 package gerador;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.JOptionPane;
+import java.util.Random;
+import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 
 public class Gerador {
 
@@ -11,6 +16,12 @@ public class Gerador {
             numero += (int) (Math.random() * 10);
         }
         return numero;
+    }
+
+    public static String gerarNumero() {
+        String gerarNumero = gerarNumero(1);
+        return gerarNumero;
+
     }
 
     public static String gerarTelefoneFixo() {
@@ -28,11 +39,65 @@ public class Gerador {
         return cpf;
     }
 
-    public static void main(String[] args) {
-        JOptionPane.showMessageDialog(null, "Telefone Fixo: " + gerarTelefoneFixo());
-        JOptionPane.showMessageDialog(null, "Telefone Celular: " + gerarTelefoneCelular());
-        JOptionPane.showMessageDialog(null, "CPF: " + gerarCPF());
+    public static String gerarCNPJ() {
+        String cnpj = gerarNumero(2) + "." + gerarNumero(3) + "." + gerarNumero(3) + "/" + gerarNumero(4) + "-" + gerarNumero(2);
+        return cnpj;
+    }
 
+    public static String gerarCEP() {
+        String cep = gerarNumero(5) + "-" + gerarNumero(3);
+        return cep;
+    }
+
+    public static String gerarSenha() {
+        Random ran = new Random();
+        String[] letras = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        String senhaFinal = "";
+
+        int quantidadeSenha = Integer.parseInt(JOptionPane.showInputDialog("Digite o numero de caracteres para sua senha: "));
+
+        for (int i = 0; i < quantidadeSenha; i++) {
+            int a = ran.nextInt(letras.length);
+            senhaFinal += letras[a];
+        }
+        return senhaFinal;
+    }
+
+    public static String gerarNomes() {
+        String[] nomes = {"Jonathan", "Pedro", "Thiago"};
+        int indice = (int) (Math.random() * nomes.length);
+        return nomes[indice];
+    }
+
+    public static String gerarNomes2() {
+        List<String> nomes = Arrays.asList("Jonathan", "Pedro", "Thiago", "apple", "mango", "papaya", "banana", "guava", "pineapple", "Abbott", "Abernathy", "Abshire", "Adams", "Altenwerth", "Anderson", "Ankunding", "Armstrong", "Auer", "Aufderhar");
+        Collections.shuffle(nomes);
+        return nomes.get(0);
+    }
+
+    private static String gerarSobrenome() {
+        List<String> sobreNome = Arrays.asList("Jonathan", "Pedro", "Thiago", "apple", "mango", "papaya", "banana", "guava", "pineapple", "Abbott", "Abernathy", "Abshire", "Adams", "Altenwerth", "Anderson", "Ankunding", "Armstrong", "Auer", "Aufderhar");
+        Collections.shuffle(sobreNome);
+        return sobreNome.get(0);
+    }
+
+    public static String gerarUF() {
+        String[] uf = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"};
+        int indice = (int) (Math.random() * uf.length);
+        return uf[indice];
+    }
+
+    public static void main(String[] args) {
+        JOptionPane.showMessageDialog(null, "Nomes: " + gerarNomes2() + " " + gerarSobrenome()
+                + "\nCPF: " + gerarCPF()
+                + "\nCNPJ: " + gerarCNPJ()
+                + "\nEstado : " + gerarUF()
+                + "\nCEP: " + gerarCEP()
+                + "\nTelefone Fixo: " + gerarTelefoneFixo()
+                + "\nTelefone Celular: " + gerarTelefoneCelular());
+        JOptionPane.showMessageDialog(null, "Login: " + gerarNomes());
+        JOptionPane.showMessageDialog(null, "Senha: " + gerarSenha());
+        JOptionPane.showMessageDialog(null, "Número aleatório de 0 a 9 é: " + gerarNumero());
     }
 
 }
