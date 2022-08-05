@@ -93,7 +93,7 @@ public class Gerador {
     }
 
     public static String gerarCidade() {
-        String[] cidade = {"Palhoça", "", "Florianopolis", "São José", "Biguaçu"};
+        String[] cidade = {"Palhoça", "Florianopolis", "São José", "Biguaçu"};
         int indice = (int) (Math.random() * cidade.length);
         return cidade[indice];
     }
