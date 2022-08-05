@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.Random;
-import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 
 public class Gerador {
 
@@ -87,17 +86,30 @@ public class Gerador {
         return uf[indice];
     }
 
+    public static String gerarBairro() {
+        String[] bairro = {"Canasvieira", "Centro", "Aririu", "Serraria", "Forquilhas"};
+        int indice = (int) (Math.random() * bairro.length);
+        return bairro[indice];
+    }
+
+    public static String gerarCidade() {
+        String[] cidade = {"Palhoça", "", "Florianopolis", "São José", "Biguaçu"};
+        int indice = (int) (Math.random() * cidade.length);
+        return cidade[indice];
+    }
+
     public static void main(String[] args) {
         JOptionPane.showMessageDialog(null, "Nomes: " + gerarNomes2() + " " + gerarSobrenome()
                 + "\nCPF: " + gerarCPF()
                 + "\nCNPJ: " + gerarCNPJ()
-                + "\nEstado : " + gerarUF()
                 + "\nCEP: " + gerarCEP()
+                + "\nEstado : " + gerarUF()
+                + "\nCidade : " + gerarCidade()
+                + "\nBairro : " + gerarBairro()
                 + "\nTelefone Fixo: " + gerarTelefoneFixo()
                 + "\nTelefone Celular: " + gerarTelefoneCelular());
-        JOptionPane.showMessageDialog(null, "Login: " + gerarNomes());
-        JOptionPane.showMessageDialog(null, "Senha: " + gerarSenha());
-        JOptionPane.showMessageDialog(null, "Número aleatório de 0 a 9 é: " + gerarNumero());
+        JOptionPane.showMessageDialog(null, "Login: " + gerarNomes()
+                + "\nSenha: " + gerarSenha());
     }
 
 }
