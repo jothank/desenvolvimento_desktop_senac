@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -27,11 +28,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
         String sql = "INSERT INTO usuario(nome, login, senha) values (?, ?, ?)";
         try {
             conn = FabricaConexao.abrirConexao();
-            prepara = conn.prepareStatement(sql);
+            prepara = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prepara.setString(1, usuario.getNome());
             prepara.setString(2, usuario.getLogin());
             prepara.setString(3, usuario.getSenha());
             prepara.executeUpdate();
+
+            rs = prepara.getGeneratedKeys();
+            rs.next();
+            usuario.setId(rs.getInt(1));
+
         } catch (SQLException e) {
             System.out.println("Erro ao salvar " + e.getMessage());
         }
