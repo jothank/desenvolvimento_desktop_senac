@@ -6,7 +6,9 @@
 package br.com.senac.dao;
 
 import br.com.senac.entidade.Usuario;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import util.Gerador;
@@ -24,7 +26,7 @@ public class UsuarioDaoImplTest {
         usuarioDao = new UsuarioDaoImpl();
     }
 
-    @Test
+//    @Test
     public void testSalvar() throws Exception {
         System.out.println("salvar");
         usuario = new Usuario(
@@ -39,55 +41,49 @@ public class UsuarioDaoImplTest {
     @Test
     public void testAlterar() throws Exception {
         System.out.println("alterar");
-        Usuario usuario = null;
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        instance.alterar(usuario);
-        fail("The test case is a prototype.");
     }
-//
 
     @Test
     public void testExcluir() throws Exception {
         System.out.println("excluir");
-        Integer id = null;
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        instance.excluir(id);
-        fail("The test case is a prototype.");
     }
-//
-
-    @Test
-    public void testPesquisarPorId() throws Exception {
-        System.out.println("pesquisarPorId");
-        Integer id = null;
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        Usuario expResult = null;
-        Usuario result = instance.pesquisarPorId(id);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-//
 
     @Test
     public void testPesquisarTudo() throws Exception {
         System.out.println("pesquisarTudo");
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        List<Usuario> expResult = null;
-        List<Usuario> result = instance.pesquisarTudo();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
-//
 
     @Test
     public void testPesquisarPorTudo() throws Exception {
         System.out.println("pesquisarPorTudo");
-        String nome = "";
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        List<Usuario> expResult = null;
-        List<Usuario> result = instance.pesquisarPorTudo(nome);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testPesquisarPorId() throws Exception {
+        System.out.println("pesquisarPorId");
+        buscarUsuarioBD();
+        Usuario usuarioPesquisado = usuarioDao.pesquisarPorId(usuario.getId());
+        assertNotNull(usuarioPesquisado);
+        System.out.println(usuario.toString());
+    }
+
+    public Usuario buscarUsuarioBD() throws Exception {
+        String sql = "select * from usuario";
+        Connection conn = FabricaConexao.abrirConexao();
+        PreparedStatement prepara = conn.prepareStatement(sql);
+        ResultSet rs = prepara.executeQuery();
+
+        if (rs.next()) {
+            usuario = new Usuario();
+            usuario.setId(rs.getInt("id"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setLogin(rs.getString("login"));
+            usuario.setSenha(rs.getString("senha"));
+            usuario.setUltimoAcesso(rs.getDate("ultimo_acesso"));
+        } else {
+            testSalvar();
+        }
+        return usuario;
     }
 
 }

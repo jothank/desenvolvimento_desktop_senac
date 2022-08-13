@@ -7,6 +7,8 @@ package br.com.senac.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -24,5 +26,14 @@ public class FabricaConexao {
             System.out.println("Erro no Driver MySQL");
         }
         return null;
+    }
+
+    public static void fecharConexao(Connection conn, PreparedStatement psmt, ResultSet rs) throws SQLException {
+
+        if (rs != null) {
+            rs.close();
+            conn.close();
+            psmt.close();
+        }
     }
 }

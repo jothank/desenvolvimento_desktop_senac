@@ -19,6 +19,9 @@ public class Client implements Serializable {
     private String rg;
     private double salario;
 
+    public Client() {
+    }
+
     public Client(String nome, String cpf, String rg, double salario) {
         this.nome = nome;
         this.cpf = cpf;
@@ -64,6 +67,11 @@ public class Client implements Serializable {
 
     public void setSalario(double salario) {
         this.salario = salario;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" + "id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", salario=" + salario + '}';
     }
 
 }

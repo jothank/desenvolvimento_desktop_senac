@@ -25,7 +25,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public void salvar(Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO usuario(nome, login, senha) values (?, ?, ?)";
+        String sql = "INSERT INTO usuario(nome, login, senha) VALUES (?, ?, ?)";
         try {
             conn = FabricaConexao.abrirConexao();
             prepara = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -40,33 +40,56 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         } catch (SQLException e) {
             System.out.println("Erro ao salvar " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
         }
 
     }
 
     @Override
     public void alterar(Usuario usuario) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void excluir(Integer id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Usuario pesquisarPorId(Integer id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Usuario usuario = null;
+        String sql = "SELECT * FROM usuario WHERE id = ?";
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement(sql);
+            prepara.setInt(1, id);
+            rs = prepara.executeQuery();
+            if (rs.next()) {
+                usuario = new Usuario();
+
+                usuario.setId(id);
+                usuario.setNome(rs.getString("nome"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setUltimoAcesso(rs.getDate("ultimo_acesso"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar por id " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
+        return usuario;
     }
 
     @Override
     public List<Usuario> pesquisarTudo() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<Usuario> pesquisarPorTudo(String nome) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    }
 
+    }
 }

@@ -16,4 +16,6 @@ public interface ClientDao {
 
     public abstract void salvar(Client client) throws SQLException;
 
+    Client pesquisarPorId(Integer id) throws SQLException;
+
 }

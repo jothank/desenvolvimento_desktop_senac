@@ -69,4 +69,9 @@ public class Usuario implements Serializable {
         this.ultimoAcesso = ultimoAcesso;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario{" + "id = " + id + ", nome = " + nome + ", login = " + login + ", senha = " + senha + ", ultimoAcesso = " + ultimoAcesso + '}';
+    }
+
 }

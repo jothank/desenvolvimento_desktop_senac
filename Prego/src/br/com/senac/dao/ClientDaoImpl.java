@@ -44,4 +44,29 @@ public class ClientDaoImpl implements ClientDao {
 
     }
 
+    @Override
+    public Client pesquisarPorId(Integer id) throws SQLException {
+        Client client = null;
+        String sql = "SELECT * FROM client WHERE id = ?";
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement(sql);
+            prepara.setInt(1, id);
+            rs = prepara.executeQuery();
+            if (rs.next()) {
+                client = new Client();
+
+                client.setId(id);
+                client.setNome(rs.getString("nome"));
+                client.setCpf(rs.getString("cpf"));
+                client.setRg(rs.getString("rg"));
+                client.setSalario(rs.getDouble("salario"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar por id " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
+        return client;
+    }
 }
