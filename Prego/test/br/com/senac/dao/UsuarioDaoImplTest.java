@@ -86,15 +86,18 @@ public class UsuarioDaoImplTest {
     public void testPesquisarTudo() throws Exception {
         System.out.println("pesquisarTudo");
         buscarUsuarioBD();
-        List<Usuario> pesquisaNome = usuarioDao.pesquisarPorNome(usuario.getNome());
-        assertNotNull(pesquisaNome);
+        List<Usuario> pesquisarTudo = usuarioDao.pesquisarTudo();
+        assertTrue(!pesquisarTudo.isEmpty());
         System.out.println(usuario.toString());
     }
 
     @Test
     public void testPesquisarPorNome() throws Exception {
-        System.out.println("pesquisarPorTudo");
-
+        System.out.println("testPesquisarPorNome");
+        buscarUsuarioBD();
+        List<Usuario> pesquisarNome = usuarioDao.pesquisarPorNome(usuario.getNome());
+        assertTrue(!pesquisarNome.isEmpty());
+        System.out.println(usuario.toString());
     }
 
     @Test

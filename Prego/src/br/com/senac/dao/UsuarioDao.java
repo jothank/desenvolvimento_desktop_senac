@@ -21,10 +21,10 @@ public interface UsuarioDao {
 
     public abstract void excluir(Integer id) throws SQLException;
 
-    Usuario pesquisarPorId(Integer id) throws SQLException;
+    public abstract Usuario pesquisarPorId(Integer id) throws SQLException;
 
-    List<Usuario> pesquisarTudo() throws SQLException;
+    public abstract List<Usuario> pesquisarTudo() throws SQLException;
 
-    List<Usuario> pesquisarPorNome (String nome) throws SQLException;
+    public abstract List<Usuario> pesquisarPorNome(String nome) throws SQLException;
 
 }

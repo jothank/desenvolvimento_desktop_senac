@@ -111,19 +111,20 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public List<Usuario> pesquisarTudo() throws SQLException {
-        List<Usuario> usuarios = new ArrayList();
         String sql = "SELECT * FROM usuario ORDER BY nome ASC";
+        Usuario usuario;
+        List<Usuario> usuarios = new ArrayList<>();
 
         try {
             conn = FabricaConexao.abrirConexao();
             prepara = conn.prepareStatement(sql);
             rs = prepara.executeQuery();
             while (rs.next()) {
-                Usuario usuario = new Usuario();
+                usuario = new Usuario();
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setLogin(rs.getString("login"));
-                usuario.setSenha(rs.getString("login"));
+                usuario.setSenha(rs.getString("senha"));
                 usuario.setUltimoAcesso(rs.getDate("ultimo_acesso"));
                 usuarios.add(usuario);
             }
@@ -138,19 +139,23 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public List<Usuario> pesquisarPorNome(String nome) throws SQLException {
-        List<Usuario> usuarios = new ArrayList();
-        Usuario usuario = null;
-        String sql = "SELECT * FROM usuario WHERE nome = ?";
+        List<Usuario> usuarios = new ArrayList<>();
+        Usuario usuario;
+        String sql = "SELECT * FROM usuario WHERE nome like ?";
 
         try {
             conn = FabricaConexao.abrirConexao();
             prepara = conn.prepareStatement(sql);
-            prepara.setString(1, nome);
+            prepara.setString(1, "%" + nome + "%");
             rs = prepara.executeQuery();
 
             while (rs.next()) {
                 usuario = new Usuario();
-                usuario.setNome(nome);
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setUltimoAcesso(rs.getDate("ultimo_acesso"));
                 usuarios.add(usuario);
             }
 
