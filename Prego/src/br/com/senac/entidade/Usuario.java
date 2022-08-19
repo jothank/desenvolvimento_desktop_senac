@@ -74,4 +74,8 @@ public class Usuario implements Serializable {
         return "Usuario{" + "id = " + id + ", nome = " + nome + ", login = " + login + ", senha = " + senha + ", ultimoAcesso = " + ultimoAcesso + '}';
     }
 
+    public String toStringNome() {
+        return "Usuario{" + "Nome = " + nome + '}';
+    }
+
 }

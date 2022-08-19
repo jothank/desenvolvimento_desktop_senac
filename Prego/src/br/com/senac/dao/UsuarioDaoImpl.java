@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,12 +49,38 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public void alterar(Usuario usuario) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String sql = "UPDATE usuario SET nome = ?, login = ?, senha = ? WHERE id = ?";
+
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement(sql);
+
+            prepara.setString(1, usuario.getNome());
+            prepara.setString(2, usuario.getLogin());
+            prepara.setString(3, usuario.getSenha());
+            prepara.setInt(4, usuario.getId());
+
+            prepara.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao alterar Usuário " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
     }
 
     @Override
     public void excluir(Integer id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement("DELETE FROM usuario WHERE id = ?");
+            prepara.setInt(1, id);
+            prepara.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir o id " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
     }
 
     @Override
@@ -84,12 +111,56 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public List<Usuario> pesquisarTudo() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Usuario> usuarios = new ArrayList();
+        String sql = "SELECT * FROM usuario ORDER BY nome ASC";
+
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement(sql);
+            rs = prepara.executeQuery();
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setSenha(rs.getString("login"));
+                usuario.setUltimoAcesso(rs.getDate("ultimo_acesso"));
+                usuarios.add(usuario);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao pesquisar todos Usuários " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
+        return usuarios;
     }
 
     @Override
-    public List<Usuario> pesquisarPorTudo(String nome) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    }
+    public List<Usuario> pesquisarPorNome(String nome) throws SQLException {
+        List<Usuario> usuarios = new ArrayList();
+        Usuario usuario = null;
+        String sql = "SELECT * FROM usuario WHERE nome = ?";
+
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement(sql);
+            prepara.setString(1, nome);
+            rs = prepara.executeQuery();
+
+            while (rs.next()) {
+                usuario = new Usuario();
+                usuario.setNome(nome);
+                usuarios.add(usuario);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar Nome " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
+        return usuarios;
 
     }
+
 }

@@ -25,6 +25,6 @@ public interface UsuarioDao {
 
     List<Usuario> pesquisarTudo() throws SQLException;
 
-    List<Usuario> pesquisarPorTudo(String nome) throws SQLException;
+    List<Usuario> pesquisarPorNome (String nome) throws SQLException;
 
 }

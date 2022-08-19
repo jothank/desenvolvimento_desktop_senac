@@ -69,4 +69,27 @@ public class ClientDaoImpl implements ClientDao {
         }
         return client;
     }
+
+    public void alterar(Client client) throws SQLException {
+        String sql = "UPDATE client SET nome = ?, cpf = ?, rg = ?, salario =? WHERE id = ?";
+
+        try {
+            conn = FabricaConexao.abrirConexao();
+            prepara = conn.prepareStatement(sql);
+
+            prepara.setString(1, client.getNome());
+            prepara.setString(2, client.getCpf());
+            prepara.setString(3, client.getRg());
+            prepara.setDouble(4, client.getSalario());
+            prepara.setInt(5, client.getId());
+
+            prepara.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao alterar Usuário " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conn, prepara, rs);
+        }
+    }
+
 }

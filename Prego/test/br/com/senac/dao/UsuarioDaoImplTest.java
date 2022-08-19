@@ -9,6 +9,8 @@ import br.com.senac.entidade.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import util.Gerador;
@@ -26,7 +28,7 @@ public class UsuarioDaoImplTest {
         usuarioDao = new UsuarioDaoImpl();
     }
 
-//    @Test
+    @Test
     public void testSalvar() throws Exception {
         System.out.println("salvar");
         usuario = new Usuario(
@@ -39,23 +41,60 @@ public class UsuarioDaoImplTest {
     }
 
     @Test
-    public void testAlterar() throws Exception {
+    public void deveraRetornarNomesDiferentesValidandoTeste() throws Exception {
         System.out.println("alterar");
+        buscarUsuarioBD();
+
+        System.out.println("Nome ANTIGO: " + usuario.toStringNome());
+
+        usuario.setNome(Gerador.gerarNome2());
+        usuarioDao.alterar(usuario);
+        String usuarioErro = Gerador.gerarNome2();
+        assertNotEquals(usuario, usuarioErro);
+
+        System.out.println("Nome NOVO  : " + usuario.toStringNome());
+    }
+
+    @Test
+    public void deveRetornarNomesIguaisTeste() throws Exception {
+        System.out.println("alterar");
+        buscarUsuarioBD();
+
+        System.out.println("Nome ANTIGO: " + usuario.toStringNome());
+
+        usuario.setNome(Gerador.gerarNome2());
+        usuarioDao.alterar(usuario);
+        Usuario usuarioNovo = usuarioDao.pesquisarPorId(usuario.getId());
+        assertEquals(usuario.getNome(), usuarioNovo.getNome());
+
+        System.out.println("Nome NOVO  : " + usuario.toStringNome());
     }
 
     @Test
     public void testExcluir() throws Exception {
         System.out.println("excluir");
+        buscarUsuarioBD();
+        usuarioDao.excluir(usuario.getId());
+
+        Usuario usuarioExcluido = usuarioDao.pesquisarPorId(usuario.getId());
+
+        assertNull(usuarioExcluido);
+
     }
 
     @Test
     public void testPesquisarTudo() throws Exception {
         System.out.println("pesquisarTudo");
+        buscarUsuarioBD();
+        List<Usuario> pesquisaNome = usuarioDao.pesquisarPorNome(usuario.getNome());
+        assertNotNull(pesquisaNome);
+        System.out.println(usuario.toString());
     }
 
     @Test
-    public void testPesquisarPorTudo() throws Exception {
+    public void testPesquisarPorNome() throws Exception {
         System.out.println("pesquisarPorTudo");
+
     }
 
     @Test
