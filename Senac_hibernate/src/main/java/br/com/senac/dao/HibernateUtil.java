@@ -5,7 +5,7 @@
  */
 package br.com.senac.dao;
 
-//import br.com.senac.entidade.Usuario;
+import br.com.senac.entidade.Usuario;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -23,7 +23,7 @@ public class HibernateUtil {
     static {
         try {
             Configuration cfg = new Configuration();
-//            cfg.addAnnotatedClass(Usuario.class);
+            cfg.addAnnotatedClass(Usuario.class);
 
             cfg.configure("/META-INF/hibernate.cfg.xml");
             StandardServiceRegistryBuilder build = new StandardServiceRegistryBuilder().

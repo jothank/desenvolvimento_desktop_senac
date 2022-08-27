@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author jonathan.costa1
  */
 @Entity
-@Table(name = "ususario")
+@Table(name = "usuario")
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +35,15 @@ public class Usuario implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(name = "ultimo_acesso")
     private Date ultimoAcesso;
+
+    public Usuario() {
+    }
+
+    public Usuario(String nome, String login, String senha) {
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+    }
 
     public Long getId() {
         return id;
@@ -94,7 +103,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.senac.entidade.Usuario[ id=" + id + " ]";
+        return "Usuario{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", ultimoAcesso=" + ultimoAcesso + '}';
     }
 
 }

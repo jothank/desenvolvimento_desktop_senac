@@ -30,4 +30,5 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
         sessao.delete(entidade);
         transaction.commit();
     }
+    
 }

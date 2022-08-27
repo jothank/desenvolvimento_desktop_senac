@@ -5,6 +5,7 @@
  */
 package br.com.senac.dao;
 
+import br.com.senac.entidade.Usuario;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -12,12 +13,11 @@ import org.hibernate.Session;
  *
  * @author jonathan.costa1
  */
-public interface BaseDao<T, ID> {
+public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements UsuarioDao {
 
-    void salvarOuAlterar(T entidade, Session sessao) throws HibernateException;
-
-    void excluir(T entidade, Session sessao) throws HibernateException;
-
-    T pesquisarPorId(Long id, Session sessao) throws HibernateException;
+    @Override
+    public Usuario pesquisarPorId(Long id, Session sessao) throws HibernateException {
+        return sessao.find(Usuario.class, id);
+    }
 
 }
