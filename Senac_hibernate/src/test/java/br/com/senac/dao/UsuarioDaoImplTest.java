@@ -20,7 +20,7 @@ import org.junit.Test;
 public class UsuarioDaoImplTest {
 
     private Usuario usuario;
-    private UsuarioDao usuarioDao;
+    private final UsuarioDao usuarioDao;
     private Session sessao;
 
     public UsuarioDaoImplTest() {
@@ -39,32 +39,69 @@ public class UsuarioDaoImplTest {
 
     }
 
-    @Test
+//    @Test
     public void testAlterar() {
 
         System.out.println("alterar");
         buscarUsuarioBd();
-        
+
         System.out.println("Nome ANTIGO: " + usuario.toString());
-        
+
         sessao = HibernateUtil.abrirConexao();
         usuario.setNome(gerarNome2());
         usuarioDao.salvarOuAlterar(usuario, sessao);
         String novoNome = gerarNome2();
         sessao.close();
         assertNotEquals(usuario, novoNome);
-        
+
         System.out.println("Nome NOVO  : " + usuario.toString());
     }
 
 //    @Test
     public void testPesquisarPorId() {
-        System.out.println("pesquisar");
+        System.out.println("testPesquisarPorId");
         buscarUsuarioBd();
         sessao = HibernateUtil.abrirConexao();
         Usuario usuarioPesq = usuarioDao.pesquisarPorId(usuario.getId(), sessao);
         sessao.close();
         assertNotNull(usuarioPesq);
+
+    }
+
+//    @Test
+    public void testPesquisarPorNome() {
+        System.out.println("testPesquisarPorNome");
+        buscarUsuarioBd();
+        sessao = HibernateUtil.abrirConexao();
+        List<Usuario> usuarioNome = usuarioDao.pesquisarPorNome(usuario.getNome(), sessao);
+        sessao.close();
+        assertTrue(!usuarioNome.isEmpty());
+        System.out.println(usuarioNome);
+    }
+
+//    @Test
+    public void testPesquisarTodos() {
+        System.out.println("testPesquisarTodos");
+        buscarUsuarioBd();
+        sessao = HibernateUtil.abrirConexao();
+        List<Usuario> pesquisarTodos = usuarioDao.pesquisarTodos(sessao);
+        sessao.close();
+        assertTrue(!pesquisarTodos.isEmpty());
+        System.out.println(pesquisarTodos);
+
+    }
+
+    @Test
+    public void testLogar() {
+        System.out.println("testLogar");
+        buscarUsuarioBd();
+        sessao = HibernateUtil.abrirConexao();
+        Usuario logar = usuarioDao.logar(usuario.getLogin(), usuario.getSenha(), sessao);
+        sessao.close();
+        
+        assertNotNull(logar);
+
+        System.out.println(usuario.toStringLogar());
 
     }
 

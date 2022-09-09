@@ -106,4 +106,7 @@ public class Usuario implements Serializable {
         return "Usuario{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", ultimoAcesso=" + ultimoAcesso + '}';
     }
 
+    public String toStringLogar() {
+        return "Usuario {" + " login=" + login + ", senha=" + senha + " }";
+    }
 }
