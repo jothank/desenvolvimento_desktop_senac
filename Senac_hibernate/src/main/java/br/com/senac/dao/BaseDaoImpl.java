@@ -23,6 +23,7 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
         sessao.saveOrUpdate(entidade);
         transaction.commit();
     }
+    
 
     @Override
     public void excluir(T entidade, Session sessao) throws HibernateException {

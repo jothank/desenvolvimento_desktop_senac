@@ -6,7 +6,6 @@
 package br.com.senac.entidade;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.*;
 
 /**
@@ -14,8 +13,8 @@ import javax.persistence.*;
  * @author jonathan.costa1
  */
 @Entity
-@Table(name = "usuario")
-public class Usuario implements Serializable {
+@Table(name = "cliente")
+public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,27 +25,31 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(nullable = false, length = 100, unique = true)
-    private String login;
+    @Column(nullable = false, length = 100)
+    private String cpf;
 
     @Column(nullable = false, length = 100)
-    private String senha;
+    private String rg;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(name = "ultimo_acesso")
-    private Date ultimoAcesso;
+    @Column(nullable = false, length = 100)
+    private double salario;
 
-    public Usuario() {
+    public Cliente() {
     }
 
-    public Usuario(String nome, String login, String senha) {
+    public Cliente(String nome, String cpf, String rg, double salario) {
         this.nome = nome;
-        this.login = login;
-        this.senha = senha;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.salario = salario;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -57,32 +60,28 @@ public class Usuario implements Serializable {
         this.nome = nome;
     }
 
-    public String getLogin() {
-        return login;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getRg() {
+        return rg;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
-    public Date getUltimoAcesso() {
-        return ultimoAcesso;
+    public double getSalario() {
+        return salario;
     }
 
-    public void setUltimoAcesso(Date ultimoAcesso) {
-        this.ultimoAcesso = ultimoAcesso;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setSalario(double salario) {
+        this.salario = salario;
     }
 
     @Override
@@ -94,16 +93,16 @@ public class Usuario implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof Cliente)) {
             return false;
         }
-        Usuario other = (Usuario) object;
+        Cliente other = (Cliente) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "Usuario {" + "\nid=" + id + ", \nnome=" + nome + ", \nlogin=" + login + ", \nsenha=" + senha + ", \nultimoAcesso=" + ultimoAcesso + "\n}";
+        return "Cliente{" + "id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", salario=" + salario + '}';
     }
 
 }

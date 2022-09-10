@@ -5,7 +5,7 @@
  */
 package br.com.senac.dao;
 
-import br.com.senac.entidade.Usuario;
+import br.com.senac.entidade.Cliente;
 import static br.com.senac.util.Geradores.*;
 import java.util.List;
 import org.hibernate.Session;
@@ -13,78 +13,80 @@ import org.hibernate.query.Query;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+
+
 /**
  *
  * @author jonathan.costa1
  */
-public class UsuarioDaoImplTest {
+public class ClienteDaoImplTest {
 
-    private Usuario usuario;
-    private final UsuarioDao usuarioDao;
+    private Cliente cliente;
+    private final ClienteDao clienteDao;
     private Session sessao;
 
-    public UsuarioDaoImplTest() {
-        usuarioDao = new UsuarioDaoImpl();
+    public ClienteDaoImplTest() {
+        clienteDao = new ClienteDaoImpl();
     }
 
-//    @Test
+    @Test
     public void testSalvar() {
 
         System.out.println("salvar");
-        usuario = new Usuario(gerarNome2(), gerarLogin(), gerarSenha(6));
+        cliente = new Cliente(gerarNome(), gerarCpf(), gerarCep(), Double.valueOf(gerarNumero(8)));
         sessao = HibernateUtil.abrirConexao();
-        usuarioDao.salvarOuAlterar(usuario, sessao);
+        clienteDao.salvarOuAlterar(cliente, sessao);
         sessao.close();
-        assertNotNull(usuario.getId());
+        assertNotNull(cliente.getId());
 
     }
 
-//    @Test
+    @Test
     public void testAlterar() {
 
         System.out.println("alterar");
         buscarUsuarioBd();
 
-        System.out.println("Nome ANTIGO: " + usuario.toString());
+        System.out.println("Nome ANTIGO: " + cliente.toString());
 
         sessao = HibernateUtil.abrirConexao();
-        usuario.setNome(gerarNome2());
-        usuarioDao.salvarOuAlterar(usuario, sessao);
+        cliente.setNome(gerarNome2());
+        clienteDao.salvarOuAlterar(cliente, sessao);
         String novoNome = gerarNome2();
         sessao.close();
-        assertNotEquals(usuario, novoNome);
+        assertNotEquals(cliente, novoNome);
 
-        System.out.println("Nome NOVO  : " + usuario.toString());
+        System.out.println("Nome NOVO  : " + cliente.toString());
     }
 
-//    @Test
+    @Test
     public void testPesquisarPorId() {
         System.out.println("testPesquisarPorId");
         buscarUsuarioBd();
         sessao = HibernateUtil.abrirConexao();
-        Usuario usuarioPesq = usuarioDao.pesquisarPorId(usuario.getId(), sessao);
+        Cliente usuarioPesq = clienteDao.pesquisarPorId(cliente.getId(), sessao);
         sessao.close();
         assertNotNull(usuarioPesq);
 
     }
 
-//    @Test
+    @Test
     public void testPesquisarPorNome() {
         System.out.println("testPesquisarPorNome");
         buscarUsuarioBd();
         sessao = HibernateUtil.abrirConexao();
-        List<Usuario> usuarioNome = usuarioDao.pesquisarPorNome(usuario.getNome(), sessao);
+        List<Cliente> usuarioNome = clienteDao.pesquisarPorCliente(cliente.getNome(), sessao);
         sessao.close();
         assertTrue(!usuarioNome.isEmpty());
         System.out.println(usuarioNome);
     }
 
-//    @Test
+    @Test
     public void testPesquisarTodos() {
         System.out.println("testPesquisarTodos");
         buscarUsuarioBd();
         sessao = HibernateUtil.abrirConexao();
-        List<Usuario> pesquisarTodos = usuarioDao.pesquisarTodos(sessao);
+        List<Cliente> pesquisarTodos = clienteDao.pesquisarTodos(sessao);
         sessao.close();
         assertTrue(!pesquisarTodos.isEmpty());
         System.out.println(pesquisarTodos);
@@ -96,7 +98,7 @@ public class UsuarioDaoImplTest {
         System.out.println("testPesquisarTodoss");
         buscarUsuarioBd();
         sessao = HibernateUtil.abrirConexao();
-        List<Usuario> pesquisarTodos = usuarioDao.pesquisarTodos(sessao);
+        List<Cliente> pesquisarTodos = clienteDao.pesquisarTodos(sessao);
 
         mostrarPorSqlImpl(pesquisarTodos);
 
@@ -105,15 +107,15 @@ public class UsuarioDaoImplTest {
 
     }
 
-    private void mostrarComStream(List<Usuario> pesquisarTodos) {
+    private void mostrarComStream(List<Cliente> pesquisarTodos) {
         pesquisarTodos.stream().sorted((usu1, usu2) -> usu1.getNome().compareTo(usu2.getNome())).forEach(pesquisarTudo
                 -> {
             System.out.println(pesquisarTudo);
             System.out.println(" ");
         });
     }
-    
-    private void mostrarPorSqlImpl(List<Usuario> pesquisarTodos) {
+
+    private void mostrarPorSqlImpl(List<Cliente> pesquisarTodos) {
         pesquisarTodos.forEach(pesquisarTudo
                 -> {
             System.out.println(pesquisarTudo);
@@ -121,46 +123,34 @@ public class UsuarioDaoImplTest {
         });
     }
 
-//    @Test
-    public void testLogar() {
-        System.out.println("testLogar");
-        buscarUsuarioBd();
-        sessao = HibernateUtil.abrirConexao();
-        Usuario logar = usuarioDao.logar(usuario.getLogin(), usuario.getSenha(), sessao);
-        sessao.close();
-
-        assertNotNull(logar);
-
-    }
-
-//    @Test
+    @Test
     public void testExcluir() {
         System.out.println("excluir");
         buscarUsuarioBd();
         sessao = HibernateUtil.abrirConexao();
-        usuarioDao.excluir(usuario, sessao);
+        clienteDao.excluir(cliente, sessao);
 
-        Usuario usuarioExcluido = usuarioDao.pesquisarPorId(usuario.getId(), sessao);
+        Cliente usuarioExcluido = clienteDao.pesquisarPorId(cliente.getId(), sessao);
 
         assertNull(usuarioExcluido);
 
     }
 
-    public Usuario buscarUsuarioBd() {
+    public Cliente buscarUsuarioBd() {
 
         System.out.println("pesquisarPorId");
         sessao = HibernateUtil.abrirConexao();
-        Query<Usuario> consulta = sessao.createQuery("from Usuario u");
-        List<Usuario> usuarios = consulta.getResultList();
+        Query<Cliente> consulta = sessao.createQuery("from Cliente c");
+        List<Cliente> clientes = consulta.getResultList();
         sessao.close();
 
-        if (usuarios.isEmpty()) {
+        if (clientes.isEmpty()) {
             testSalvar();
         } else {
-            usuario = usuarios.get(0);
+            cliente = clientes.get(0);
         }
 
-        return usuario;
+        return cliente;
 
     }
 

@@ -5,6 +5,8 @@
  */
 package br.com.senac.dao;
 
+import br.com.senac.entidade.Cliente;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -12,13 +14,10 @@ import org.hibernate.Session;
  *
  * @author jonathan.costa1
  */
-public interface BaseDao<T, ID> {
+public interface ClienteDao extends BaseDao<Cliente, Long> {
 
-    void salvarOuAlterar(T entidade, Session sessao) throws HibernateException;
-    
+    List<Cliente> pesquisarPorCliente(String nome, Session sessao) throws HibernateException;
 
-    void excluir(T entidade, Session sessao) throws HibernateException;
-
-    T pesquisarPorId(Long id, Session sessao) throws HibernateException;
+    List<Cliente> pesquisarTodos(Session sessao) throws HibernateException;
 
 }
