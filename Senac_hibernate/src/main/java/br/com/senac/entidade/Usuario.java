@@ -36,6 +36,10 @@ public class Usuario implements Serializable {
     @Column(name = "ultimo_acesso")
     private Date ultimoAcesso;
 
+    @ManyToOne
+    @JoinColumn(name = "id_perfil")
+    private Perfil perfil;
+
     public Usuario() {
     }
 
@@ -45,8 +49,19 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
+    public Usuario(String nome, String login, String senha, Perfil perfil) {
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+        this.perfil = perfil;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -81,8 +96,12 @@ public class Usuario implements Serializable {
         this.ultimoAcesso = ultimoAcesso;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override

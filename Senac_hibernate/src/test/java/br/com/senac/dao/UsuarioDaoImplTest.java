@@ -112,7 +112,7 @@ public class UsuarioDaoImplTest {
             System.out.println(" ");
         });
     }
-    
+
     private void mostrarPorSqlImpl(List<Usuario> pesquisarTodos) {
         pesquisarTodos.forEach(pesquisarTudo
                 -> {
