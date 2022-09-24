@@ -50,7 +50,6 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tela Login");
-        setPreferredSize(new java.awt.Dimension(300, 300));
 
         jLabel1.setText("Login:");
 
@@ -71,6 +70,7 @@ public class Login extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Entrar");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -177,7 +177,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Login ou Senha incorreta");
         } else {
             new TelaPrincipal().setVisible(true);
-            JOptionPane.showMessageDialog(null, "Bem vindo " + usuario.getNome());
+            //JOptionPane.showMessageDialog(null, "Bem vindo " + usuario.getNome());
             dispose();
         }
 

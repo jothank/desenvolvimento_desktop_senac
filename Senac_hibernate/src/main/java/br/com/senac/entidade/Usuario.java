@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 /**
  *
- * @author jonathan.costa1
+ * @author pedro.abreu
  */
 @Entity
 @Table(name = "usuario")
@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 100)
     private String senha;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     @Column(name = "ultimo_acesso")
     private Date ultimoAcesso;
 
@@ -47,13 +47,6 @@ public class Usuario implements Serializable {
         this.nome = nome;
         this.login = login;
         this.senha = senha;
-    }
-
-    public Usuario(String nome, String login, String senha, Perfil perfil) {
-        this.nome = nome;
-        this.login = login;
-        this.senha = senha;
-        this.perfil = perfil;
     }
 
     public Long getId() {
@@ -122,7 +115,11 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario {" + "\nid=" + id + ", \nnome=" + nome + ", \nlogin=" + login + ", \nsenha=" + senha + ", \nultimoAcesso=" + ultimoAcesso + "\n}";
+        return "br.com.senac.entidade.Usuario[ id=" + id + " ]";
+    }
+
+    public String toStringUsuario() {
+        return "Usuario{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", ultimoAcesso=" + ultimoAcesso + '}';
     }
 
 }

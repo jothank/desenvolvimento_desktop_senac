@@ -91,7 +91,7 @@ public class PerfilDaoImplTest {
         buscarUsuarioBd();
 
         sessao = HibernateUtil.abrirConexao();
-        List<Perfil> usuarioNome = perfilDao.pesquisarPorPerfil(perfil.getNome(), sessao);
+        List<Perfil> usuarioNome = perfilDao.pesquisarPorNome(perfil.getNome(), sessao);
         sessao.close();
 
         assertTrue(!usuarioNome.isEmpty());
