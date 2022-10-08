@@ -34,7 +34,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btPesquisar" min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="titulo_pesq_usuario" max="32767" attributes="0"/>
+                  <Component id="titulo_pesq_perfil" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -52,7 +52,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="titulo_pesq_usuario" min="-2" max="-2" attributes="0"/>
+              <Component id="titulo_pesq_perfil" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="label_nome" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -72,13 +72,13 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="titulo_pesq_usuario">
+    <Component class="javax.swing.JLabel" name="titulo_pesq_perfil">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Pesquisa Usu&#xe1;rio"/>
+        <Property name="text" type="java.lang.String" value="Pesquisa Perfil"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
@@ -109,14 +109,12 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tbUsuario">
+        <Component class="javax.swing.JTable" name="tbPerfil">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="2" rowCount="4">
                 <Column editable="true" title="Nome" type="java.lang.Object"/>
-                <Column editable="true" title="Login" type="java.lang.Object"/>
-                <Column editable="true" title="Perfil" type="java.lang.Object"/>
-                <Column editable="true" title="Ultimo Acesso" type="java.lang.Object"/>
+                <Column editable="true" title="Descricao" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

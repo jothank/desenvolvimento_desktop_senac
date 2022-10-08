@@ -27,7 +27,7 @@ public class Perfil implements Serializable {
     @Lob
     private String descricao;
 
-    public Perfil() {
+   public Perfil() {
     }
 
     public Perfil(String nome, String descricao) {

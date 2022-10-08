@@ -8,10 +8,7 @@ package br.com.senac.tela;
 import br.com.senac.dao.HibernateUtil;
 import br.com.senac.dao.PerfilDao;
 import br.com.senac.dao.PerfilDaoImpl;
-import br.com.senac.dao.UsuarioDao;
-import br.com.senac.dao.UsuarioDaoImpl;
 import br.com.senac.entidade.Perfil;
-import br.com.senac.entidade.Usuario;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,35 +19,32 @@ import org.hibernate.Session;
  *
  * @author jonathan.costa1
  */
-public class CadastroUsuario extends javax.swing.JFrame {
+public class CadastroPerfil extends javax.swing.JFrame {
 
     /**
      * Creates new form CadastroUsuario
      */
-    private UsuarioDao usuarioDao;
+    private PerfilDao perfilDao;
     private Session sessao;
-    private Usuario usuario;
+    private Perfil perfil;
     private List<Perfil> perfis;
 
-    public CadastroUsuario() {
+    public CadastroPerfil() {
         initComponents();
-        carregarComboPerfil();
     }
 
-    public CadastroUsuario(Usuario usuario) {
+    CadastroPerfil(Perfil perfil) {
         initComponents();
-        carregarAlteracaoUsuario(usuario);
-        carregarComboPerfil();
+        carregarAlteracaoPerfil(perfil);
         btSalvar.setText("Alterar");        
         tituto_cadastro.setText("Alterar Usuário");
     }
-
-    private void carregarAlteracaoUsuario(Usuario usuario1) {
-        this.usuario = usuario1;
-        varNome.setText(usuario1.getNome());
-        varLogin.setText(usuario1.getLogin());
-        varComboPerfil.getModel().setSelectedItem(usuario1.getPerfil().getNome());
-        btCancelar.setEnabled(false);
+    
+    private void carregarAlteracaoPerfil(Perfil perfil) {
+        this.perfil = perfil;
+        varNome.setText(perfil.getNome());
+        varNome1.setText(perfil.getDescricao());
+        btCancelar.setEnabled(false);        
     }
 
     /**
@@ -65,13 +59,12 @@ public class CadastroUsuario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         tituto_cadastro = new javax.swing.JLabel();
         label_nome = new javax.swing.JLabel();
-        label_login = new javax.swing.JLabel();
-        label_perfil = new javax.swing.JLabel();
         varNome = new javax.swing.JTextField();
-        varLogin = new javax.swing.JTextField();
-        varComboPerfil = new javax.swing.JComboBox<>();
         btCancelar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
+        label_nome1 = new javax.swing.JLabel();
+        varNome1 = new javax.swing.JTextField();
+        label_perfil = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -89,19 +82,14 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
         tituto_cadastro.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         tituto_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituto_cadastro.setText("Cadastro Usuário");
+        tituto_cadastro.setText("Cadastro Perfil");
         tituto_cadastro.setToolTipText("");
 
         label_nome.setText("Nome:");
 
-        label_login.setText("Login:");
-
-        label_perfil.setText("Perfil:");
-
-        varComboPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um perfil..." }));
-        varComboPerfil.addActionListener(new java.awt.event.ActionListener() {
+        varNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                varComboPerfilActionPerformed(evt);
+                varNomeActionPerformed(evt);
             }
         });
 
@@ -119,32 +107,47 @@ public class CadastroUsuario extends javax.swing.JFrame {
             }
         });
 
+        label_nome1.setText("Descrição:");
+
+        varNome1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varNome1ActionPerformed(evt);
+            }
+        });
+
+        label_perfil.setText("Situação:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tituto_cadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btCancelar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btSalvar))
+                        .addContainerGap()
+                        .addComponent(tituto_cadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(label_perfil)
-                            .addComponent(label_nome)
-                            .addComponent(label_login))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(varNome)
-                            .addComponent(varLogin)
-                            .addComponent(varComboPerfil, 0, 389, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btCancelar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btSalvar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(label_nome))
+                                    .addComponent(label_nome1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(label_perfil)))
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(varNome1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                                    .addComponent(varNome))))
+                        .addGap(0, 21, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,17 +160,15 @@ public class CadastroUsuario extends javax.swing.JFrame {
                     .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_login)
-                    .addComponent(varLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(label_nome1)
+                    .addComponent(varNome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(varComboPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_perfil))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(label_perfil)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSalvar)
                     .addComponent(btCancelar))
-                .addGap(24, 24, 24))
+                .addGap(49, 49, 49))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -177,53 +178,25 @@ public class CadastroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        usuarioDao = new UsuarioDaoImpl();
+        perfilDao = new PerfilDaoImpl();
         sessao = HibernateUtil.abrirConexao();
         if (validarFormulario()) {
-            if (usuario == null) {
-                usuario = new Usuario();
-                usuario.setSenha("1234");
+            if (perfil == null) {
+                perfil = new Perfil();
             }
-            usuario.setNome(varNome.getText());
-            usuario.setLogin(varLogin.getText());
-            int indice = varComboPerfil.getSelectedIndex();
-            indice--;
-            usuario.setPerfil(perfis.get(indice));
-            usuarioDao.salvarOuAlterar(usuario, sessao);
+            perfil.setNome(varNome.getText());
+            perfil.setDescricao(varNome1.getText());
+            perfilDao.salvarOuAlterar(perfil, sessao);
             dispose();
             JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
             sessao.close();
         }
     }//GEN-LAST:event_btSalvarActionPerformed
-    private void carregarComboPerfil() {
-        PerfilDao perfilDao = new PerfilDaoImpl();
-        try {
-            sessao = HibernateUtil.abrirConexao();
-            perfis = perfilDao.pesquisarTodos(sessao);
-            perfis.forEach(perfil -> {
-                varComboPerfil.addItem(perfil.getNome());
-            });
-        } catch (HibernateException e) {
-            System.out.println("erro ao pesquisar todos perfis" + e.getMessage());
-        } finally {
-            sessao.close();
-        }
-    }
 
     private boolean validarFormulario() {
         String nome = varNome.getText().trim();
         if (validarCampoMenor3Caracter(nome)) {
             JOptionPane.showMessageDialog(null, "Preencha o nome corretamente!");
-            return false;
-        }
-        String login = varLogin.getText().trim();
-        if (validarCampoMenor3Caracter(login)) {
-            JOptionPane.showMessageDialog(null, "Preencha o login corretamente!");
-            return false;
-        }
-        int indice = varComboPerfil.getSelectedIndex();
-        if (indice == 0) {
-            JOptionPane.showMessageDialog(null, "Escolha um perfil!");
             return false;
         }
         return true; //retornar falso apenas explicação
@@ -235,14 +208,18 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         btCancelar.addActionListener((ActionEvent e) -> {
-            varLogin.setText("");
+            varNome1.setText("");
             varNome.setText("");
         });
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void varComboPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varComboPerfilActionPerformed
+    private void varNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_varComboPerfilActionPerformed
+    }//GEN-LAST:event_varNomeActionPerformed
+
+    private void varNome1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varNome1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varNome1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,20 +238,21 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadastroUsuario().setVisible(true);
+                new CadastroPerfil().setVisible(true);
             }
         });
     }
@@ -283,13 +261,12 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btSalvar;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel label_login;
     private javax.swing.JLabel label_nome;
+    private javax.swing.JLabel label_nome1;
     private javax.swing.JLabel label_perfil;
     private javax.swing.JLabel tituto_cadastro;
-    private javax.swing.JComboBox<String> varComboPerfil;
-    private javax.swing.JTextField varLogin;
     private javax.swing.JTextField varNome;
+    private javax.swing.JTextField varNome1;
     // End of variables declaration//GEN-END:variables
 
 }

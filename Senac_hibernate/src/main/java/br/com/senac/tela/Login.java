@@ -9,9 +9,12 @@ import br.com.senac.dao.HibernateUtil;
 import br.com.senac.dao.UsuarioDao;
 import br.com.senac.dao.UsuarioDaoImpl;
 import br.com.senac.entidade.Usuario;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -167,21 +170,25 @@ public class Login extends javax.swing.JFrame {
         // 
         String login = varLogin.getText();
         String senha = String.valueOf(varSenha.getPassword());
-
-        UsuarioDao usuarioDao = new UsuarioDaoImpl();
-        Session sessao = HibernateUtil.abrirConexao();
-        Usuario usuario = usuarioDao.logar(login, senha, sessao);
-        sessao.close();
-
-        if (usuario == null) {
-            JOptionPane.showMessageDialog(null, "Login ou Senha incorreta");
-        } else {
-            new TelaPrincipal().setVisible(true);
-            //JOptionPane.showMessageDialog(null, "Bem vindo " + usuario.getNome());
-            dispose();
+        Session sessao = null;
+        try {
+            UsuarioDao usuarioDao = new UsuarioDaoImpl();
+            sessao = HibernateUtil.abrirConexao();
+            Usuario usuario = usuarioDao.logar(login, senha, sessao);
+            if (usuario == null) {
+                JOptionPane.showMessageDialog(null, "Login ou Senha incorreta");
+            } else {
+                usuario.setUltimoAcesso(new Date());
+                usuarioDao.salvarOuAlterar(usuario, sessao);
+                new TelaPrincipal(usuario).setVisible(true);
+                //JOptionPane.showMessageDialog(null, "Bem vindo " + usuario.getNome());
+                dispose();
+            }
+        } catch (HeadlessException | HibernateException ex) {
+            System.out.println("erro ao logar " + ex.getMessage());
+        } finally {
+            sessao.close();
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
