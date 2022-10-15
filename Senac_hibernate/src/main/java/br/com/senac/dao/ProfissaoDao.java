@@ -12,11 +12,14 @@ import org.hibernate.Session;
 
 /**
  *
- * @author pedro.abreu
+ * @author silvio.junior
  */
 public interface ProfissaoDao extends BaseDao<Profissao, Long> {
 
-    List<Profissao> pesquisarPorNome(String nome, Session sessao) throws HibernateException;
-
-    List<Profissao> pesquisarTodos(Session sessao) throws HibernateException;
+    List<Profissao> pesquisarPorNome(String nome,
+            Session sessao) throws HibernateException;
+    
+    List<Profissao> pesquisarTodos(Session sessao)
+                               throws HibernateException;    
+    
 }

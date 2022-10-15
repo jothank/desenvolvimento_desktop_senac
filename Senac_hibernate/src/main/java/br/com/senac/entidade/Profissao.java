@@ -6,11 +6,17 @@
 package br.com.senac.entidade;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
 /**
  *
- * @author pedro.abreu
+ * @author silvio.junior
  */
 @Entity
 @Table(name = "profissao")
@@ -20,10 +26,10 @@ public class Profissao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @Column(nullable = false)
     private String nome;
-
+    
     @Lob
     private String descricao;
 
@@ -34,7 +40,6 @@ public class Profissao implements Serializable {
         this.nome = nome;
         this.descricao = descricao;
     }
-
     public Long getId() {
         return id;
     }
@@ -83,9 +88,5 @@ public class Profissao implements Serializable {
     public String toString() {
         return "br.com.senac.entidade.Profissao[ id=" + id + " ]";
     }
-
-    public String toStringProfissao() {
-        return "Profissao{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + '}';
-    }
-
+    
 }

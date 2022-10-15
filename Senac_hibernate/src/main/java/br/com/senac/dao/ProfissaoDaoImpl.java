@@ -6,6 +6,7 @@
 package br.com.senac.dao;
 
 import br.com.senac.entidade.Profissao;
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,25 +14,33 @@ import org.hibernate.query.Query;
 
 /**
  *
- * @author pedro.abreu
+ * @author silvio.junior
  */
-public class ProfissaoDaoImpl extends BaseDaoImpl<Profissao, Long> implements ProfissaoDao {
+public class ProfissaoDaoImpl extends BaseDaoImpl<Profissao, Long>
+        implements ProfissaoDao, Serializable {
 
     @Override
-    public Profissao pesquisarPorId(Long id, Session sessao) throws HibernateException {
+    public Profissao pesquisarPorId(Long id, Session sessao)
+            throws HibernateException {
         return sessao.find(Profissao.class, id);
     }
 
     @Override
-    public List<Profissao> pesquisarPorNome(String nome, Session sessao) throws HibernateException {
-        Query<Profissao> consulta = sessao.createQuery("FROM Profissao pr WHERE p.nome LIKE :nome ORDER BY p.nome");
+    public List<Profissao> pesquisarPorNome(String nome, 
+                    Session sessao) throws HibernateException {
+        Query<Profissao> consulta = sessao
+                .createQuery("from Profissao p where "
+                        + "p.nome like :nome order by p.nome");
         consulta.setParameter("nome", "%" + nome + "%");
         return consulta.getResultList();
     }
 
     @Override
-    public List<Profissao> pesquisarTodos(Session sessao) throws HibernateException {
-        Query<Profissao> consulta = sessao.createQuery("FROM Profissao pr ORDER BY p.nome ASC");
+    public List<Profissao> pesquisarTodos(Session sessao)
+                              throws HibernateException {
+        Query<Profissao> consulta = sessao
+                .createQuery("from Profissao p order by p.nome");
         return consulta.getResultList();
     }
+
 }

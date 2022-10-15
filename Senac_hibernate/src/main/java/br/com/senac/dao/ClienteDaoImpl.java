@@ -14,26 +14,24 @@ import org.hibernate.query.Query;
 
 /**
  *
- * @author jonathan.costa1
+ * @author silvio.junior
  */
-public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements ClienteDao, Serializable {
+public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long>
+                       implements ClienteDao, Serializable{
 
     @Override
-    public Cliente pesquisarPorId(Long id, Session sessao) throws HibernateException {
+    public Cliente pesquisarPorId(Long id, Session sessao)
+                                 throws HibernateException {
         return sessao.find(Cliente.class, id);
     }
 
     @Override
-    public List<Cliente> pesquisarPorCliente(String nome, Session sessao) throws HibernateException {
-        Query<Cliente> consulta = sessao.createQuery("select c from Cliente c where c.nome like :nome");
+    public List<Cliente> pesquisarPorNome(String nome, Session sessao) throws HibernateException {
+        Query<Cliente> consulta = sessao
+        .createQuery("from Cliente c where "
+                + "c.nome like :nome order by c.nome");
         consulta.setParameter("nome", "%" + nome + "%");
         return consulta.getResultList();
     }
-
-    @Override
-    public List<Cliente> pesquisarTodos(Session sessao) throws HibernateException {
-        Query<Cliente> consulta = sessao.createQuery("select c from Cliente c order by c.nome");
-        return consulta.getResultList();
-    }
-
+    
 }

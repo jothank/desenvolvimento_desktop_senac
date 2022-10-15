@@ -13,9 +13,10 @@ import org.hibernate.query.Query;
 
 /**
  *
- * @author jonathan.costa1
+ * @author silvio.junior
  */
-public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements UsuarioDao {
+public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long>
+        implements UsuarioDao {
 
     @Override
     public Usuario pesquisarPorId(Long id, Session sessao) throws HibernateException {
@@ -23,23 +24,28 @@ public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements Usuari
     }
 
     @Override
-    public List<Usuario> pesquisarPorNome(String nome, Session sessao) throws HibernateException {
-        Query<Usuario> consulta = sessao.createQuery("select u from Usuario u where u.nome like :nome");
-        consulta.setParameter("nome", "%" + nome + "%");
+    public List<Usuario> pesquisarPorNome(String nome, 
+            Session sessao) throws HibernateException {
+        Query<Usuario> consulta = sessao
+       .createQuery("FROM Usuario u WHERE u.nome LIKE :vNome");
+        consulta.setParameter("vNome", "%" + nome + "%");
         return consulta.getResultList();
     }
 
     @Override
     public List<Usuario> pesquisarTodos(Session sessao) throws HibernateException {
-        Query<Usuario> consulta = sessao.createQuery("select u from Usuario u order by u.nome");
-        return consulta.getResultList();
+        Query<Usuario> consulta = sessao.
+                createQuery("FROM Usuario u order by u.nome");
+        return consulta.getResultList();        
     }
 
     @Override
     public Usuario logar(String login, String senha, Session sessao) throws HibernateException {
-        Query<Usuario> consulta = sessao.createQuery("select u from Usuario u where u.login = :login and u.senha = :senha");
+        Query<Usuario> consulta = sessao
+        .createQuery("FROM Usuario u "
+            + "WHERE u.login = :login AND u.senha = :senha");
         consulta.setParameter("login", login);
-        consulta.setParameter("senha", senha);
+        consulta.setParameter("senha", senha);        
         return consulta.uniqueResult();
     }
 

@@ -11,19 +11,19 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author jonathan.costa1
+ * @author silvio.junior
  */
-public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
+public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID>{
 
     private Transaction transaction;
-
+            
     @Override
-    public void salvarOuAlterar(T entidade, Session sessao) throws HibernateException {
+    public void salvarOuAlterar(T entidade, Session sessao)
+                                throws HibernateException {
         transaction = sessao.beginTransaction();
         sessao.saveOrUpdate(entidade);
         transaction.commit();
     }
-    
 
     @Override
     public void excluir(T entidade, Session sessao) throws HibernateException {

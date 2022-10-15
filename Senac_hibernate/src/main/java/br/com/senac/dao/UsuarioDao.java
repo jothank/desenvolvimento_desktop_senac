@@ -12,15 +12,15 @@ import org.hibernate.Session;
 
 /**
  *
- * @author jonathan.costa1
+ * @author silvio.junior
  */
-public interface UsuarioDao extends BaseDao<Usuario, Long> {
-
-    List<Usuario> pesquisarPorNome(String nome, Session sessao) throws HibernateException;
-
-    List<Usuario> pesquisarTodos(Session sessao) throws HibernateException;
+public interface UsuarioDao extends BaseDao<Usuario, Long>{
     
-    Usuario logar(String login, String senha, Session sessao) throws HibernateException;
-        
-
+    List<Usuario> pesquisarPorNome(String nome,
+                 Session sessao)throws HibernateException;
+    
+    List<Usuario> pesquisarTodos(Session sessao)throws HibernateException;    
+    
+    Usuario logar(String login, String senha, 
+                    Session sessao)throws HibernateException;
 }

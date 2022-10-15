@@ -5,8 +5,8 @@
  */
 package br.com.senac.dao;
 
-import br.com.senac.entidade.Perfil;
-import static br.com.senac.util.Gerador.*;
+import br.com.senac.entidade.Profissao;
+import br.com.senac.util.Gerador;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -17,23 +17,25 @@ import static org.junit.Assert.*;
  *
  * @author silvio.junior
  */
-public class PerfilDaoImplTest {
+public class ProfissaoDaoImplTest {
     
-    private Perfil perfil;
-    private PerfilDao perfilDao;
-    private Session sessao;
+    private Profissao profissao;
+    private ProfissaoDao profissaoDao;
+    private Session sessao;    
     
-    public PerfilDaoImplTest() {
-        perfilDao = new PerfilDaoImpl();
+    public ProfissaoDaoImplTest() {
+        profissaoDao = new ProfissaoDaoImpl();
     }
 
     @Test
     public void testSalvar() {
-        perfil = new Perfil(null, gerarSenha(7), "descrição bla, bla");
+        System.out.println("salvar");
+        profissao = new Profissao(Gerador.gerarNome(), 
+                                            "bla, bla...");
         sessao = HibernateUtil.abrirConexao();
-        perfilDao.salvarOuAlterar(perfil, sessao);
+        profissaoDao.salvarOuAlterar(profissao, sessao);
         sessao.close();
-        assertNotNull(perfil.getId());
+        assertNotNull(profissao.getId());
     }
     
 //    @Test
@@ -51,19 +53,19 @@ public class PerfilDaoImplTest {
         System.out.println("pesquisarTodos");
     }
     
-    public Perfil buscarPerfilBD(){
+    public Profissao buscarProfissaoBD(){
         sessao = HibernateUtil.abrirConexao();
-        Query<Perfil> consulta = sessao
-                .createQuery("from Perfil ");
-        consulta.setMaxResults(1);
-        List<Perfil> perfis = consulta.getResultList();
+        Query<Profissao> consulta = sessao
+                   .createQuery("from Profissao p");
+        consulta.setFirstResult(1);
+        List<Profissao> profissaos = consulta.getResultList();
         sessao.close();
-        if(perfis.isEmpty()){
+        if(profissaos.isEmpty()){
             testSalvar();
         }else{
-            perfil = perfis.get(0);
+            profissao = profissaos.get(0);
         }
-        return perfil;
+        return profissao;
     }
     
 }
