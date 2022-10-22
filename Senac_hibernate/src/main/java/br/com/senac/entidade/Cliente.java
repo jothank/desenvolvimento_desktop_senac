@@ -10,44 +10,39 @@ import javax.persistence.*;
 
 /**
  *
- * @author silvio.junior
+ * @author jonathan.costa1
  */
 @Entity
 @Table(name = "cliente")
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 100)
     private String nome;
-    
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, length = 100)
     private String cpf;
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 100)
     private String rg;
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 100)
     private double salario;
-    
-    @ManyToOne
-    @JoinColumn(name = "id_profissao")
-    private Profissao profissao;
 
     public Cliente() {
     }
 
-    public Cliente(String nome, String cpf, String rg, 
-                             double salario, Profissao prof) {
+    public Cliente(String nome, String cpf, String rg, double salario) {
         this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
         this.salario = salario;
-        this.profissao = prof;
-    }    
+    }
 
     public Long getId() {
         return id;
@@ -89,14 +84,6 @@ public class Cliente implements Serializable {
         this.salario = salario;
     }
 
-    public Profissao getProfissao() {
-        return profissao;
-    }
-
-    public void setProfissao(Profissao profissao) {
-        this.profissao = profissao;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -115,7 +102,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.senac.entidade.Cliente[ id=" + id + " ]";
+        return "Cliente{" + "id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", salario=" + salario + '}';
     }
-    
+
 }

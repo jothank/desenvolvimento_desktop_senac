@@ -6,17 +6,12 @@
 package br.com.senac.entidade;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
+import org.hibernate.type.descriptor.sql.TinyIntTypeDescriptor;
 
 /**
  *
- * @author silvio.junior
+ * @author jonathan.costa1
  */
 @Entity
 @Table(name = "perfil")
@@ -26,22 +21,32 @@ public class Perfil implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false, unique = true)
     private String nome;
-    
+
     @Lob
     private String descricao;
+    
+    private boolean situacao;
 
-    public Perfil() {
+    public boolean getSituacao() {
+        return situacao;
     }
 
-    public Perfil(Long id, String nome, String descricao) {
-        this.id = id;
+    public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
+    }
+    
+    
+
+   public Perfil() {
+    }
+
+    public Perfil(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
     }
-
 
     public Long getId() {
         return id;
@@ -91,5 +96,5 @@ public class Perfil implements Serializable {
     public String toString() {
         return "br.com.senac.entidade.Perfil[ id=" + id + " ]";
     }
-    
+
 }

@@ -6,9 +6,9 @@
 package br.com.senac.tela;
 
 import br.com.senac.dao.HibernateUtil;
-import br.com.senac.dao.PerfilDao;
-import br.com.senac.dao.PerfilDaoImpl;
-import br.com.senac.entidade.Perfil;
+import br.com.senac.dao.ProfissaoDaoImpl;
+import br.com.senac.dao.ProfissaoDao;
+import br.com.senac.entidade.Profissao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,19 +19,19 @@ import org.hibernate.Session;
  *
  * @author jonathan.costa1
  */
-public class PesquisaPerfil extends javax.swing.JFrame {
+public class PesquisaProfissao extends javax.swing.JFrame {
 
     private Session sessao;
-    private List<Perfil> perfis;
-    private Perfil perfil;
-    private PerfilDao perfilDao;
+    private List<Profissao> profissoes;
+    private Profissao profissao;
+    private ProfissaoDao profissaoDao;
 
     /**
      * Creates new form PesquisaPerfil
      */
-    public PesquisaPerfil() {
+    public PesquisaProfissao() {
         initComponents();
-        perfilDao = new PerfilDaoImpl();
+        profissaoDao = new ProfissaoDaoImpl();
     }
 
     /**
@@ -53,11 +53,11 @@ public class PesquisaPerfil extends javax.swing.JFrame {
         btAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa Perfil");
+        setTitle("Pesquisa Profissao");
 
         titulo_pesq_perfil.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         titulo_pesq_perfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titulo_pesq_perfil.setText("Pesquisa Perfil");
+        titulo_pesq_perfil.setText("Pesquisa Profissao");
         titulo_pesq_perfil.setToolTipText("");
 
         varNome.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -156,11 +156,11 @@ public class PesquisaPerfil extends javax.swing.JFrame {
         } else {
             try {
                 sessao = HibernateUtil.abrirConexao();
-                perfis = perfilDao.pesquisarPorPerfilAtivo(nome, sessao);
-                if (perfis.isEmpty()) {
+                profissoes = profissaoDao.pesquisarPorNome(nome, sessao);
+                if (profissoes.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Nenhum valor encontrado!");
                 } else {
-                    carregarTabelaPerfil(perfis);
+                    carregarTabelaPerfil(profissoes);
                 }
             } catch (HibernateException e) {
                 System.out.println("Erro ao pesquisar nome: " + e.getMessage());
@@ -179,16 +179,16 @@ public class PesquisaPerfil extends javax.swing.JFrame {
         } else {
             try {
                 sessao = HibernateUtil.abrirConexao();
-                perfil = perfis.get(linhaSelecionada);
-                perfilDao.excluir(perfil, sessao);
+                profissao = profissoes.get(linhaSelecionada);
+                profissaoDao.excluir(profissao, sessao);
 //                DefaultTableModel defaultTable = (DefaultTableModel) tbPerfil.getModel();
 //                defaultTable.removeRow(linhaSelecionada);
-                perfis.remove(linhaSelecionada);
-                carregarTabelaPerfil(perfis);
+                profissoes.remove(linhaSelecionada);
+                carregarTabelaPerfil(profissoes);
 //                dispose();
                 JOptionPane.showMessageDialog(null, "Excluido com sucesso");
             } catch (HibernateException e) {
-                System.out.println("Erro ao excluir perfil " + e.getMessage());
+                System.out.println("Erro ao excluir profissao " + e.getMessage());
             } finally {
                 sessao.close();
             }
@@ -204,8 +204,8 @@ public class PesquisaPerfil extends javax.swing.JFrame {
         } else {
             try {
                 sessao = HibernateUtil.abrirConexao();
-                perfil = perfis.get(linhaSelecionada);
-                new CadastroPerfil(perfil).setVisible(true);
+                profissao = profissoes.get(linhaSelecionada);
+                new CadastroProfissao(profissao).setVisible(true);
             } catch (HibernateException e) {
                 System.out.println("Erro ao excluir usuário " + e.getMessage());
             } finally {
@@ -213,15 +213,15 @@ public class PesquisaPerfil extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btAlterarActionPerformed
-    private void carregarTabelaPerfil(List<Perfil> perfis) {
+    private void carregarTabelaPerfil(List<Profissao> profissoes) {
 
         DefaultTableModel defaultTable = (DefaultTableModel) tbPerfil.getModel();
         defaultTable.setNumRows(0);
-        perfis.stream().forEach(per -> {
+        profissoes.stream().forEach(pro -> {
             defaultTable.addRow(new Object[]{
-                per.getNome(),
-                per.getDescricao(),
-                per.getSituacao() ? "Ativo" : "Inativo"
+                pro.getNome(),
+                pro.getDescricao(),
+                pro.getSituacao() ? "ativo" : "inativo"
             });
         });
     }
@@ -243,21 +243,23 @@ public class PesquisaPerfil extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PesquisaPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaProfissao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PesquisaPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaProfissao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PesquisaPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaProfissao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PesquisaPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaProfissao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PesquisaPerfil().setVisible(true);
+                new PesquisaProfissao().setVisible(true);
             }
         });
     }

@@ -36,15 +36,16 @@ public class CadastroPerfil extends javax.swing.JFrame {
     CadastroPerfil(Perfil perfil) {
         initComponents();
         carregarAlteracaoPerfil(perfil);
-        btSalvar.setText("Alterar");        
-        tituto_cadastro.setText("Alterar Usuário");
+        btSalvar.setText("Alterar");
+        tituto_cadastro.setText("Alterar Perfil");
+        setTitle("Alterar Perfil");
     }
-    
+
     private void carregarAlteracaoPerfil(Perfil perfil) {
         this.perfil = perfil;
         varNome.setText(perfil.getNome());
         varNome1.setText(perfil.getDescricao());
-        btCancelar.setEnabled(false);        
+        btCancelar.setEnabled(false);
     }
 
     /**
@@ -64,7 +65,8 @@ public class CadastroPerfil extends javax.swing.JFrame {
         btSalvar = new javax.swing.JButton();
         label_nome1 = new javax.swing.JLabel();
         varNome1 = new javax.swing.JTextField();
-        label_perfil = new javax.swing.JLabel();
+        btIsAtivo = new javax.swing.JToggleButton();
+        lb_perfil1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -78,7 +80,7 @@ public class CadastroPerfil extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro Usuário");
+        setTitle("Cadastro Perfil");
 
         tituto_cadastro.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         tituto_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -93,7 +95,7 @@ public class CadastroPerfil extends javax.swing.JFrame {
             }
         });
 
-        btCancelar.setText("Cancelar");
+        btCancelar.setText("Limpar");
         btCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCancelarActionPerformed(evt);
@@ -115,7 +117,21 @@ public class CadastroPerfil extends javax.swing.JFrame {
             }
         });
 
-        label_perfil.setText("Situação:");
+        btIsAtivo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btIsAtivo.setText("Ativo");
+        btIsAtivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btIsAtivoMouseClicked(evt);
+            }
+        });
+        btIsAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btIsAtivoActionPerformed(evt);
+            }
+        });
+
+        lb_perfil1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lb_perfil1.setText("Ativar:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,18 +150,22 @@ public class CadastroPerfil extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btSalvar))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(label_nome))
-                                    .addComponent(label_nome1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(label_perfil)))
-                                .addGap(8, 8, 8)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(varNome1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-                                    .addComponent(varNome))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(label_nome))
+                                            .addComponent(label_nome1))
+                                        .addGap(8, 8, 8))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lb_perfil1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btIsAtivo)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(varNome1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                                        .addComponent(varNome)))))
                         .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -163,8 +183,10 @@ public class CadastroPerfil extends javax.swing.JFrame {
                     .addComponent(label_nome1)
                     .addComponent(varNome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(label_perfil)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btIsAtivo)
+                    .addComponent(lb_perfil1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSalvar)
                     .addComponent(btCancelar))
@@ -186,9 +208,14 @@ public class CadastroPerfil extends javax.swing.JFrame {
             }
             perfil.setNome(varNome.getText());
             perfil.setDescricao(varNome1.getText());
+            if (btIsAtivo.getText().equals("Ativo")) {
+                perfil.setSituacao(true);
+            } else {
+                perfil.setSituacao(false);
+            }
             perfilDao.salvarOuAlterar(perfil, sessao);
             dispose();
-            JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
+            JOptionPane.showMessageDialog(null, "Perfil salvo com sucesso!");
             sessao.close();
         }
     }//GEN-LAST:event_btSalvarActionPerformed
@@ -220,6 +247,18 @@ public class CadastroPerfil extends javax.swing.JFrame {
     private void varNome1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varNome1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_varNome1ActionPerformed
+
+    private void btIsAtivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btIsAtivoMouseClicked
+        System.out.println();
+    }//GEN-LAST:event_btIsAtivoMouseClicked
+
+    private void btIsAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIsAtivoActionPerformed
+        if (btIsAtivo.getText().equals("Ativo")) {
+            btIsAtivo.setText("Inativo");
+        } else {
+            btIsAtivo.setText("Ativo");
+        }
+    }//GEN-LAST:event_btIsAtivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,11 +298,12 @@ public class CadastroPerfil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
+    private javax.swing.JToggleButton btIsAtivo;
     private javax.swing.JButton btSalvar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label_nome;
     private javax.swing.JLabel label_nome1;
-    private javax.swing.JLabel label_perfil;
+    private javax.swing.JLabel lb_perfil1;
     private javax.swing.JLabel tituto_cadastro;
     private javax.swing.JTextField varNome;
     private javax.swing.JTextField varNome1;

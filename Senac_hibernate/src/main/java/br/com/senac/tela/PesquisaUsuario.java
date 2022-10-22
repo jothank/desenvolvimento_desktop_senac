@@ -17,7 +17,7 @@ import org.hibernate.Session;
 
 /**
  *
- * @author silvio.junior
+ * @author jonathan.costa1
  */
 public class PesquisaUsuario extends javax.swing.JFrame {
 
@@ -27,7 +27,7 @@ public class PesquisaUsuario extends javax.swing.JFrame {
     private UsuarioDao usuarioDao;
 
     /**
-     * Creates new form CadastroUsuario
+     * Creates new form PesquisaUsuario
      */
     public PesquisaUsuario() {
         initComponents();
@@ -43,25 +43,27 @@ public class PesquisaUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lb_titulo = new javax.swing.JLabel();
-        lb_nome = new javax.swing.JLabel();
+        titulo_pesq_usuario = new javax.swing.JLabel();
         varNome = new javax.swing.JTextField();
+        label_nome = new javax.swing.JLabel();
         btPesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbUsuario = new javax.swing.JTable();
-        btAlterar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        btAlterar = new javax.swing.JButton();
+        btIsAtivo = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa de Usuário");
+        setTitle("Pesquisa Usuário");
 
-        lb_titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lb_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_titulo.setText("Pesquisa de Usuário");
+        titulo_pesq_usuario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titulo_pesq_usuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titulo_pesq_usuario.setText("Pesquisa Usuário");
+        titulo_pesq_usuario.setToolTipText("");
 
-        lb_nome.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lb_nome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lb_nome.setText("Nome:");
+        varNome.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
+        label_nome.setText("Nome:");
 
         btPesquisar.setText("Pesquisar");
         btPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -72,24 +74,17 @@ public class PesquisaUsuario extends javax.swing.JFrame {
 
         tbUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Login", "Perfil", "Último Acesso"
+                "Nome", "Login", "Perfil", "Profissao", "Situação", "Ultimo Acesso"
             }
         ));
         tbUsuario.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbUsuario);
-
-        btAlterar.setText("Alterar");
-        btAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAlterarActionPerformed(evt);
-            }
-        });
 
         btExcluir.setText("Excluir");
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -98,48 +93,70 @@ public class PesquisaUsuario extends javax.swing.JFrame {
             }
         });
 
+        btAlterar.setText("Alterar");
+        btAlterar.setMaximumSize(new java.awt.Dimension(80, 22));
+        btAlterar.setMinimumSize(new java.awt.Dimension(80, 22));
+        btAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAlterarActionPerformed(evt);
+            }
+        });
+
+        btIsAtivo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btIsAtivo.setText("Ativo");
+        btIsAtivo.setPreferredSize(new java.awt.Dimension(58, 22));
+        btIsAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btIsAtivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lb_titulo, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lb_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
-                .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label_nome)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btIsAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titulo_pesq_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))
+                        .addGap(6, 6, 6))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lb_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lb_nome)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btPesquisar)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(titulo_pesq_usuario)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btAlterar)
-                    .addComponent(btExcluir))
-                .addGap(0, 32, Short.MAX_VALUE))
+                    .addComponent(label_nome)
+                    .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btIsAtivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btPesquisar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btExcluir)
+                    .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,67 +164,94 @@ public class PesquisaUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
+
         String nome = varNome.getText().trim();
+        boolean situacao = Boolean.valueOf("1");
+
         if (nome.length() <= 2) {
-            JOptionPane.showMessageDialog(null, "O nome tem que ter no mínimo"
-                    + " 3 letras");
+            JOptionPane.showMessageDialog(null, "Nome apresenta poucos caracteres");
         } else {
             try {
                 sessao = HibernateUtil.abrirConexao();
-                usuarios = usuarioDao.pesquisarPorNome(nome, sessao);
-                if (usuarios.isEmpty()) {
+                usuarios = usuarioDao.pesquisarPorNomeComSituacao(nome, situacao, sessao);
+
+                if (usuarios == null) {
                     JOptionPane.showMessageDialog(null, "Nenhum valor encontrado!");
                 } else {
                     carregarTabelaUsuario(usuarios);
                 }
             } catch (HibernateException e) {
-                System.out.println("Erro ao pesquisar por nome: " + e.getMessage());
+                System.out.println("Erro ao pesquisar nome: " + e.getMessage());
             } finally {
                 sessao.close();
             }
-        }
-    }//GEN-LAST:event_btPesquisarActionPerformed
+        }    }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+
         int linhaSelecionada = tbUsuario.getSelectedRow();
+
         if (linhaSelecionada < 0) {
-            JOptionPane.showMessageDialog(null, "Selecione um usuário para excluir");
+            JOptionPane.showMessageDialog(null, "Selecione alguem para excluir");
         } else {
             try {
                 sessao = HibernateUtil.abrirConexao();
                 usuario = usuarios.get(linhaSelecionada);
                 usuarioDao.excluir(usuario, sessao);
-                dispose();
-                JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
+//                DefaultTableModel defaultTable = (DefaultTableModel) tbUsuario.getModel();
+//                defaultTable.removeRow(linhaSelecionada);
+                usuarios.remove(linhaSelecionada);
+                carregarTabelaUsuario(usuarios);
+//                dispose();
+                JOptionPane.showMessageDialog(null, "Excluido com sucesso");
             } catch (HibernateException e) {
                 System.out.println("Erro ao excluir usuário " + e.getMessage());
             } finally {
                 sessao.close();
             }
         }
-
-
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
+
         int linhaSelecionada = tbUsuario.getSelectedRow();
+
         if (linhaSelecionada < 0) {
-            JOptionPane.showMessageDialog(null, "Selecione um usuário para alterar");
+            JOptionPane.showMessageDialog(null, "Selecione alguem para alterar");
         } else {
-            usuario = usuarios.get(linhaSelecionada);
-            new CadastroUsuario(usuario).setVisible(true);
-            dispose();
+            try {
+                sessao = HibernateUtil.abrirConexao();
+                usuario = usuarios.get(linhaSelecionada);
+                new CadastroUsuario(usuario).setVisible(true);
+            } catch (HibernateException e) {
+                System.out.println("Erro ao excluir usuário " + e.getMessage());
+            } finally {
+                sessao.close();
+            }
         }
     }//GEN-LAST:event_btAlterarActionPerformed
 
+    private void btIsAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIsAtivoActionPerformed
+        if (btIsAtivo.getText().equals("Ativo")) {
+            btIsAtivo.setText("Inativo");
+        } else {
+            btIsAtivo.setText("Ativo");
+        }
+    }//GEN-LAST:event_btIsAtivoActionPerformed
     private void carregarTabelaUsuario(List<Usuario> usuarios) {
+
         DefaultTableModel defaultTable = (DefaultTableModel) tbUsuario.getModel();
         defaultTable.setNumRows(0);
-        usuarios.stream()
-                .forEach(usu -> {
-                    defaultTable.addRow(new Object[]{usu.getNome(), usu.getLogin(),
-                         usu.getPerfil().getNome(), usu.getUltimoAcesso()});
-                });
+        usuarios.stream().forEach(usu -> {
+            defaultTable.addRow(new Object[]{
+                usu.getNome(),
+                usu.getLogin(),
+                usu.getPerfil().getNome(),
+                usu.getProfissao().getNome(),
+                usu.isSituacao() ? "Ativo" : "Inativo",
+                usu.getUltimoAcesso()
+            });
+        });
     }
 
     /**
@@ -236,7 +280,6 @@ public class PesquisaUsuario extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PesquisaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -249,11 +292,12 @@ public class PesquisaUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAlterar;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JToggleButton btIsAtivo;
     private javax.swing.JButton btPesquisar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lb_nome;
-    private javax.swing.JLabel lb_titulo;
+    private javax.swing.JLabel label_nome;
     private javax.swing.JTable tbUsuario;
+    private javax.swing.JLabel titulo_pesq_usuario;
     private javax.swing.JTextField varNome;
     // End of variables declaration//GEN-END:variables
 }
