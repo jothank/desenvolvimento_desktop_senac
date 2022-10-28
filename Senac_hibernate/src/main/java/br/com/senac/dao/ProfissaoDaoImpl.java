@@ -38,7 +38,7 @@ public class ProfissaoDaoImpl extends BaseDaoImpl<Profissao, Long> implements Pr
 
     @Override
     public List<Profissao> pesquisarTodos(Session sessao) throws HibernateException {
-        Query<Profissao> consulta = sessao.createQuery("FROM Profissao pr ORDER BY p.nome ASC");
+        Query<Profissao> consulta = sessao.createQuery("FROM Profissao p ORDER BY p.nome ASC");
         return consulta.getResultList();
     }
 }

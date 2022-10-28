@@ -6,7 +6,7 @@
 package br.com.senac.dao;
 
 import br.com.senac.entidade.Perfil;
-import static br.com.senac.util.Gerador.*;
+import static br.com.senac.util.Geradores.*;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -15,55 +15,118 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author silvio.junior
+ * @author jonathan.costa1
  */
 public class PerfilDaoImplTest {
-    
+
     private Perfil perfil;
-    private PerfilDao perfilDao;
+    private final PerfilDao perfilDao;
     private Session sessao;
-    
+
     public PerfilDaoImplTest() {
         perfilDao = new PerfilDaoImpl();
     }
 
     @Test
     public void testSalvar() {
-        perfil = new Perfil(null, gerarSenha(7), "descrição bla, bla");
+
+        System.out.println("salvar");
+        perfil = new Perfil(gerarNome(), gerarNome2());
         sessao = HibernateUtil.abrirConexao();
         perfilDao.salvarOuAlterar(perfil, sessao);
         sessao.close();
+
         assertNotNull(perfil.getId());
-    }
-    
-//    @Test
-    public void testPesquisarPorId() {
-        System.out.println("pesquisarPorId");
+
     }
 
-//    @Test
-    public void testPesquisarPorNome() {
-        System.out.println("pesquisarPorNome");
-    }
+    @Test
+    public void testAlterar() {
 
-//    @Test
-    public void testPesquisarTodos() {
-        System.out.println("pesquisarTodos");
-    }
-    
-    public Perfil buscarPerfilBD(){
+        System.out.println("alterar");
+        buscarUsuarioBd();
+
         sessao = HibernateUtil.abrirConexao();
-        Query<Perfil> consulta = sessao
-                .createQuery("from Perfil ");
-        consulta.setMaxResults(1);
+        perfil.setNome(gerarNome2());
+        perfilDao.salvarOuAlterar(perfil, sessao);
+        String novoNome = gerarNome2();
+        sessao.close();
+
+        assertNotEquals(perfil, novoNome);
+
+    }
+
+    @Test
+    public void testExcluir() {
+
+        System.out.println("excluir");
+        buscarUsuarioBd();
+
+        sessao = HibernateUtil.abrirConexao();
+        perfilDao.excluir(perfil, sessao);
+        Perfil usuarioExcluido = perfilDao.pesquisarPorId(perfil.getId(), sessao);
+
+        assertNull(usuarioExcluido);
+
+    }
+
+    @Test
+    public void testPesquisarPorId() {
+
+        System.out.println("testPesquisarPorId");
+        buscarUsuarioBd();
+
+        sessao = HibernateUtil.abrirConexao();
+        Perfil perfilPesq = perfilDao.pesquisarPorId(perfil.getId(), sessao);
+        sessao.close();
+
+        assertNotNull(perfilPesq);
+
+    }
+
+    @Test
+    public void testPesquisarPorPerfil() {
+
+        System.out.println("pesquisarPorPerfil");
+        buscarUsuarioBd();
+
+        sessao = HibernateUtil.abrirConexao();
+        List<Perfil> usuarioNome = perfilDao.pesquisarPorNome(perfil.getNome(), sessao);
+        sessao.close();
+
+        assertTrue(!usuarioNome.isEmpty());
+
+    }
+
+    @Test
+    public void testPesquisarTodos() {
+
+        System.out.println("testPesquisarTodos");
+        buscarUsuarioBd();
+
+        sessao = HibernateUtil.abrirConexao();
+        List<Perfil> pesquisarTodos = perfilDao.pesquisarTodos(sessao);
+        sessao.close();
+
+        assertTrue(!pesquisarTodos.isEmpty());
+
+    }
+
+    public Perfil buscarUsuarioBd() {
+
+        System.out.println("pesquisarPorId");
+        sessao = HibernateUtil.abrirConexao();
+        Query<Perfil> consulta = sessao.createQuery("from Perfil c");
         List<Perfil> perfis = consulta.getResultList();
         sessao.close();
-        if(perfis.isEmpty()){
+
+        if (perfis.isEmpty()) {
             testSalvar();
-        }else{
+        } else {
             perfil = perfis.get(0);
         }
+
         return perfil;
+
     }
-    
 }

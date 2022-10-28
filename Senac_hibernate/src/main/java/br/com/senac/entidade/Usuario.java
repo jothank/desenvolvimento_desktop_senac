@@ -41,7 +41,7 @@ public class Usuario implements Serializable {
     private Perfil perfil;
     
     @ManyToOne
-    @JoinColumn(name = "id_profissaol")
+    @JoinColumn(name = "id_profissao")
     private Profissao profissao;
 
     public Profissao getProfissao() {

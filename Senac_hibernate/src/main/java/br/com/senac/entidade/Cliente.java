@@ -34,6 +34,42 @@ public class Cliente implements Serializable {
     @Column(nullable = false, length = 100)
     private double salario;
 
+    @ManyToOne
+    @JoinColumn(name = "id_profissao")
+    private Profissao profissao;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_telefone")
+    private Telefone telefone;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public Profissao getProfissao() {
+        return profissao;
+    }
+
+    public void setProfissao(Profissao profissao) {
+        this.profissao = profissao;
+    }
+
+    public Telefone getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
+
     public Cliente() {
     }
 
