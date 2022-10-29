@@ -27,11 +27,20 @@ public class Endereco implements Serializable {
     private String logradouro; 
     private String bairro; 
     private String cep; 
-    private String numero; 
-    private String cidade; 
-    private String estado; 
+    private String numero;    
+    private String localidade; 
+    private String uf; 
     private String complemento; 
     private String observacao; 
+
+    public boolean isErro() {
+        return erro;
+    }
+
+    public void setErro(boolean erro) {
+        this.erro = erro;
+    }
+    private boolean erro;
 
     public String getLogradouro() {
         return logradouro;
@@ -65,20 +74,20 @@ public class Endereco implements Serializable {
         this.numero = numero;
     }
 
-    public String getCidade() {
-        return cidade;
+    public String getLocalidade() {
+        return localidade;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getUf() {
+        return uf;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 
     public String getComplemento() {

@@ -46,6 +46,7 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
+
     public Endereco getEndereco() {
         return endereco;
     }
@@ -79,6 +80,8 @@ public class Cliente implements Serializable {
         this.rg = rg;
         this.salario = salario;
     }
+    
+    
 
     public Long getId() {
         return id;
