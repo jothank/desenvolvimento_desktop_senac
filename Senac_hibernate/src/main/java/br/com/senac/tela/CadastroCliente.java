@@ -34,11 +34,45 @@ public class CadastroCliente extends javax.swing.JFrame {
     private List<Profissao> profissoes;
     private ClienteDao clienteDao;
     private Cliente cliente;
-    private Telefone telefone;
 
     public CadastroCliente() {
         initComponents();
         carregarComboProfissao();
+    }
+
+    CadastroCliente(Cliente cliente) {
+        initComponents();
+        carregarComboProfissao();
+        carregarAlteracaoPerfil(cliente);
+        btSalvar.setText("Alterar");
+        tituto_cadastro.setText("Alterar Cliente");
+        setTitle("Alterar Cliente");
+    }
+
+    private void carregarAlteracaoPerfil(Cliente cliente) {
+        this.cliente = cliente;
+        varNome.setText(cliente.getNome());
+        varCpf.setText(cliente.getCpf());
+        varRg.setText(cliente.getRg());
+        varSalario.setText(String.valueOf(cliente.getSalario()));
+
+        varProfissao.getModel().setSelectedItem(cliente.getProfissao().getNome());
+
+        varTelefone.setText(cliente.getTelefone().getNumero());
+        varTipo.setText(cliente.getTelefone().getTipo());
+        varOperadora.setText(cliente.getTelefone().getOperadora());
+        varDdd.setText(cliente.getTelefone().getDdd());
+
+        varCep.setText(cliente.getEndereco().getCep());
+        varBairro.setText(cliente.getEndereco().getBairro());
+        varCidade.setText(cliente.getEndereco().getLocalidade());
+        varUf.setText(cliente.getEndereco().getUf());
+        varObservacao.setText(cliente.getEndereco().getObservacao());
+        varComplemento.setText(cliente.getEndereco().getComplemento());
+        varEndereco.setText(cliente.getEndereco().getLogradouro());
+        varNumero.setText(cliente.getEndereco().getNumero());
+
+        btCancelar.setEnabled(false);
     }
 
     /**
@@ -58,24 +92,19 @@ public class CadastroCliente extends javax.swing.JFrame {
         label_login = new javax.swing.JLabel();
         label_perfil = new javax.swing.JLabel();
         varNome = new javax.swing.JTextField();
-        varCpf = new javax.swing.JTextField();
         btCancelar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
         lb_perfil1 = new javax.swing.JLabel();
         varRg = new javax.swing.JTextField();
-        varSalario = new javax.swing.JTextField();
         varProfissao = new javax.swing.JComboBox<>();
         label_perfil1 = new javax.swing.JLabel();
         lb_perfil2 = new javax.swing.JLabel();
-        varDdd = new javax.swing.JTextField();
         lb_perfil3 = new javax.swing.JLabel();
-        varTelefone = new javax.swing.JTextField();
         varOperadora = new javax.swing.JTextField();
         lb_perfil5 = new javax.swing.JLabel();
         varTipo = new javax.swing.JTextField();
         lb_perfil6 = new javax.swing.JLabel();
         lb_perfil7 = new javax.swing.JLabel();
-        varCep = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -93,6 +122,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         varComplemento = new javax.swing.JTextField();
         lb_perfil14 = new javax.swing.JLabel();
         varObservacao = new javax.swing.JTextField();
+        varCpf = new javax.swing.JFormattedTextField();
+        varSalario = new javax.swing.JFormattedTextField();
+        varTelefone = new javax.swing.JFormattedTextField();
+        varDdd = new javax.swing.JFormattedTextField();
+        varCep = new javax.swing.JFormattedTextField();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,12 +203,6 @@ public class CadastroCliente extends javax.swing.JFrame {
         lb_perfil7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_perfil7.setText("CEP:");
 
-        varCep.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                varCepActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Buscar CEP");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,6 +225,12 @@ public class CadastroCliente extends javax.swing.JFrame {
         lb_perfil10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_perfil10.setText("Cidade:");
 
+        varCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varCidadeActionPerformed(evt);
+            }
+        });
+
         lb_perfil11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_perfil11.setText("UF:");
 
@@ -215,6 +249,42 @@ public class CadastroCliente extends javax.swing.JFrame {
         lb_perfil14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_perfil14.setText("Observação:");
 
+        try {
+            varCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        varCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varCpfActionPerformed(evt);
+            }
+        });
+
+        varSalario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        varSalario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varSalarioActionPerformed(evt);
+            }
+        });
+
+        try {
+            varTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            varDdd.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            varCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,13 +299,17 @@ public class CadastroCliente extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lb_perfil2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(varDdd, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
+                                        .addComponent(varDdd, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(lb_perfil3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(varTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addGap(176, 176, 176))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(6, 6, 6)
+                                                .addComponent(varTelefone))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(label_perfil)
@@ -243,13 +317,12 @@ public class CadastroCliente extends javax.swing.JFrame {
                                             .addComponent(label_login)
                                             .addComponent(lb_perfil1))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(varNome)
-                                                .addComponent(varCpf)
-                                                .addComponent(varRg, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
-                                            .addComponent(varProfissao, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(varSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(varNome)
+                                            .addComponent(varRg, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                                            .addComponent(varCpf, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(varProfissao, 0, 389, Short.MAX_VALUE)
+                                            .addComponent(varSalario)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lb_perfil6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -257,7 +330,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                                             .addComponent(varTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(212, 212, 212)
+                                .addGap(151, 151, 151)
                                 .addComponent(jLabel2)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -291,8 +364,8 @@ public class CadastroCliente extends javax.swing.JFrame {
                                                     .addComponent(lb_perfil8))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(varEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                    .addComponent(varEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
@@ -340,7 +413,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_perfil1)
-                    .addComponent(varSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(varSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_perfil1)
@@ -350,9 +423,9 @@ public class CadastroCliente extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_perfil2)
-                    .addComponent(varDdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lb_perfil3)
-                    .addComponent(varTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(varTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(varDdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_perfil5)
@@ -364,8 +437,8 @@ public class CadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_perfil7)
-                    .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_perfil8)
@@ -404,41 +477,101 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         clienteDao = new ClienteDaoImpl();
         Telefone telefone = new Telefone();
+        Endereco endereco = new Endereco();
         sessao = HibernateUtil.abrirConexao();
         if (validarFormulario()) {
             if (cliente == null) {
                 cliente = new Cliente();
             }
+
             cliente.setNome(varNome.getText());
-            cliente.setCpf(varCpf.getText());
+            cliente.setCpf((varCpf.getText().replace("-", "")).replace(".", ""));
             cliente.setRg(varRg.getText());
-            cliente.setSalario(Double.valueOf(varSalario.getText()));
+            cliente.setSalario(Double.valueOf(varSalario.getText().replace(",", ".")));
             int indice = varProfissao.getSelectedIndex();
             indice--;
             cliente.setProfissao(profissoes.get(indice));
+
             telefone.setNumero(varTelefone.getText());
+            telefone.setDdd((varDdd.getText().replace("(", "")).replace(")", ""));
+            telefone.setOperadora(varOperadora.getText());
+            telefone.setTipo(varTipo.getText());
+            cliente.setTelefone(telefone);
+
+            endereco.setNumero(varNumero.getText());
+            endereco.setComplemento(varComplemento.getText());
+            endereco.setObservacao(varObservacao.getText());
+            endereco.setBairro(varBairro.getText());
+            endereco.setCep((varCep.getText().replace(".", "")).replace("-", ""));
+            endereco.setLocalidade(varCidade.getText());
+            endereco.setLogradouro(varEndereco.getText());
+            endereco.setUf(varUf.getText());
+            cliente.setEndereco(endereco);
+
             clienteDao.salvarOuAlterar(cliente, sessao);
+
             dispose();
             JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
             sessao.close();
         }
     }//GEN-LAST:event_btSalvarActionPerformed
     private boolean validarFormulario() {
+
+        int indice = varProfissao.getSelectedIndex();
         String nome = varNome.getText().trim();
+        String cpf = varCpf.getText().trim();
+        String ddd = varDdd.getText().trim();
+        System.out.println(ddd);
+
         if (validarCampoMenor3Caracter(nome)) {
-            JOptionPane.showMessageDialog(null, "Preencha o nome corretamente!");
+            JOptionPane.showMessageDialog(null, "Preencha o nome corretamente");
             return false;
         }
-//        int indice = varProfissao.getSelectedIndex();
-//        if (indice == 0) {
-//            JOptionPane.showMessageDialog(null, "Escolha uma profissao!");
-//            return false;
-//        }
+        if (indice == 0) {
+            JOptionPane.showMessageDialog(null, "Escolha uma profissao");
+            return false;
+        }
+        if (varSalario == null || varSalario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite o salário");
+            return false;
+        }
+        if (varRg == null || varRg.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite o RG");
+            return false;
+        }
+        if (cpf == null || cpf.isEmpty() || (validarCampoMenor14Caracter(cpf))) {
+            JOptionPane.showMessageDialog(null, "Digite o CPF");
+            return false;
+        }
+        if (varTelefone == null || varTelefone.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite um telefone");
+            return false;
+        }
+        if (ddd == null || ddd.isEmpty() || (validarCampoMenor3Caracter(ddd)) || ddd.equals("(  )")) {
+            JOptionPane.showMessageDialog(null, "Digite um DDD");
+            return false;
+        }
+        if (varOperadora == null || varOperadora.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite uma Operadora");
+            return false;
+        }
+        if (varTipo == null || varTipo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite um Tipo");
+            return false;
+        }
+        if (varCep == null || varCep.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite um CEP");
+            return false;
+        }
         return true; //retornar falso apenas explicação
     }
 
     private boolean validarCampoMenor3Caracter(String campo) {
         return campo.length() < 3;
+    }
+
+    private boolean validarCampoMenor14Caracter(String campo) {
+        return campo.length() < 14;
     }
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         btCancelar.addActionListener((ActionEvent e) -> {
@@ -448,7 +581,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             varLogin5.setText("");
             varRg.setText("");
             varOperadora.setText("");
-            varSalario.setText("");
+            varRg.setText("");
             varTelefone.setText("");
             varTipo.setText("");
         }
@@ -480,10 +613,10 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CepRest cepRest = new CepRest();
         Endereco endereco;
-        if (varCep.getText().length() > 8 || varCep.getText().length() < 8) {
+        if (varCep.getText().length() > 10 || varCep.getText().length() < 10) {
             JOptionPane.showMessageDialog(this, "Digite o CEP corretamente");
         } else {
-            endereco = cepRest.pesquisaCep(varCep.getText());
+            endereco = cepRest.pesquisaCep((varCep.getText().replace(".", "")).replace("-", ""));
             if (endereco.isErro()) {
                 JOptionPane.showMessageDialog(this, "CEP incorreto, tente novamente");
             } else {
@@ -491,22 +624,27 @@ public class CadastroCliente extends javax.swing.JFrame {
                 varEndereco.setText(endereco.getLogradouro());
                 varCidade.setText(endereco.getLocalidade());
                 varUf.setText(endereco.getUf());
-                endereco.setNumero(varNumero.getText());
-                endereco.setComplemento(varComplemento.getText());
-                endereco.setObservacao(varObservacao.getText());
             }
         }
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void varCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varCepActionPerformed
-
-    }//GEN-LAST:event_varCepActionPerformed
-
     private void varNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varNumeroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_varNumeroActionPerformed
+
+    private void varCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varCidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varCidadeActionPerformed
+
+    private void varCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varCpfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varCpfActionPerformed
+
+    private void varSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varSalarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varSalarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -575,11 +713,11 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lb_perfil9;
     private javax.swing.JLabel tituto_cadastro;
     private javax.swing.JTextField varBairro;
-    private javax.swing.JTextField varCep;
+    private javax.swing.JFormattedTextField varCep;
     private javax.swing.JTextField varCidade;
     private javax.swing.JTextField varComplemento;
-    private javax.swing.JTextField varCpf;
-    private javax.swing.JTextField varDdd;
+    private javax.swing.JFormattedTextField varCpf;
+    private javax.swing.JFormattedTextField varDdd;
     private javax.swing.JTextField varEndereco;
     private javax.swing.JTextField varLogin5;
     private javax.swing.JTextField varNome;
@@ -588,8 +726,8 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextField varOperadora;
     private javax.swing.JComboBox<String> varProfissao;
     private javax.swing.JTextField varRg;
-    private javax.swing.JTextField varSalario;
-    private javax.swing.JTextField varTelefone;
+    private javax.swing.JFormattedTextField varSalario;
+    private javax.swing.JFormattedTextField varTelefone;
     private javax.swing.JTextField varTipo;
     private javax.swing.JTextField varUf;
     // End of variables declaration//GEN-END:variables

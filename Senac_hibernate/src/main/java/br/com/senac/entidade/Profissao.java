@@ -38,6 +38,11 @@ public class Profissao implements Serializable {
         this.situacao = situacao;
     }
 
+    public Profissao(String nome, String descricao) {
+        this.nome = nome;
+        this.descricao = descricao;
+    }
+
     public boolean getSituacao() {
         return situacao;
     }

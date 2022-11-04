@@ -44,6 +44,14 @@ public class Telefone implements Serializable {
         this.tipo = tipo;
     }
 
+    public Telefone(String numero, String ddd, String operadora, String tipo) {
+        this.numero = numero;
+        this.ddd = ddd;
+        this.operadora = operadora;
+        this.tipo = tipo;
+    }   
+    
+
     public String getNumero() {
         return numero;
     }

@@ -47,10 +47,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         item_cad_usuario = new javax.swing.JMenuItem();
         item_cad_perfil = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         menu_pesquisa = new javax.swing.JMenu();
         item_pesq_usuario = new javax.swing.JMenuItem();
         item_pesq_perfil = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         menu_alterar_senha = new javax.swing.JMenu();
         alterar_senha = new javax.swing.JMenuItem();
 
@@ -118,6 +120,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menu_cadastro.add(jMenuItem2);
 
+        jMenuItem4.setText("Cliente");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menu_cadastro.add(jMenuItem4);
+
         jMenuBar2.add(menu_cadastro);
 
         menu_pesquisa.setText("Pesquisa");
@@ -150,6 +160,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menu_pesquisa.add(jMenuItem3);
+
+        jMenuItem5.setText("Cliente");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        menu_pesquisa.add(jMenuItem5);
 
         jMenuBar2.add(menu_pesquisa);
 
@@ -243,6 +261,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new PesquisaProfissao().setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        new CadastroCliente().setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new PesquisaCliente().setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -293,6 +319,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenu menu_alterar_senha;
     private javax.swing.JMenu menu_cadastro;
     private javax.swing.JMenu menu_pesquisa;
