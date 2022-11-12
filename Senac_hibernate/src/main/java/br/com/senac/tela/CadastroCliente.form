@@ -419,6 +419,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="varEndereco">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="varEnderecoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lb_perfil9">
       <Properties>

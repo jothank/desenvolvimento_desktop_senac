@@ -201,31 +201,46 @@ public class CadastroPerfil extends javax.swing.JFrame {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         perfilDao = new PerfilDaoImpl();
-        sessao = HibernateUtil.abrirConexao();
-        if (validarFormulario()) {
-            if (perfil == null) {
-                perfil = new Perfil();
+        try {
+            sessao = HibernateUtil.abrirConexao();
+            if (validarFormulario()) {
+                if (perfil == null) {
+                    perfil = new Perfil();
+                }
+                perfil.setNome(varNome.getText());
+                perfil.setDescricao(varNome1.getText());
+                if (btIsAtivo.getText().equals("Ativo")) {
+                    perfil.setSituacao(true);
+                } else {
+                    perfil.setSituacao(false);
+                }
+                perfilDao.salvarOuAlterar(perfil, sessao);
+                dispose();
+                JOptionPane.showMessageDialog(null, "Perfil salvo com sucesso!");
             }
-            perfil.setNome(varNome.getText());
-            perfil.setDescricao(varNome1.getText());
-            if (btIsAtivo.getText().equals("Ativo")) {
-                perfil.setSituacao(true);
-            } else {
-                perfil.setSituacao(false);
+        } catch (HibernateException e) {
+            if (e.getCause().toString().contains("perfil.UK_8m46w0jj2ksw0subwvu0i5kmd")) {
+                JOptionPane.showMessageDialog(null, "Nome já cadastrado");
             }
-            perfilDao.salvarOuAlterar(perfil, sessao);
-            dispose();
-            JOptionPane.showMessageDialog(null, "Perfil salvo com sucesso!");
+
+            System.out.println("erro ao cadastrar perfil " + e.getMessage());
+
+        } finally {
             sessao.close();
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private boolean validarFormulario() {
         String nome = varNome.getText().trim();
+
         if (validarCampoMenor3Caracter(nome)) {
             JOptionPane.showMessageDialog(null, "Preencha o nome corretamente!");
             return false;
         }
+
+        if (nome.isEmpty()) {
+        }
+
         return true; //retornar falso apenas explicação
     }
 

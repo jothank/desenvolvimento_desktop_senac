@@ -9,9 +9,6 @@ import br.com.senac.dao.HibernateUtil;
 import br.com.senac.dao.ClienteDao;
 import br.com.senac.dao.ClienteDaoImpl;
 import br.com.senac.entidade.Cliente;
-import br.com.senac.entidade.Endereco;
-import br.com.senac.entidade.Profissao;
-import br.com.senac.entidade.Telefone;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +32,12 @@ public class PesquisaCliente extends javax.swing.JFrame {
     public PesquisaCliente() {
         initComponents();
         clienteDao = new ClienteDaoImpl();
+    }
+    
+    public PesquisaCliente(Cliente cliente) {
+        initComponents();
+        clienteDao = new ClienteDaoImpl();
+        carregarTabelaCliente(clientes);        
     }
 
     /**
@@ -64,6 +67,11 @@ public class PesquisaCliente extends javax.swing.JFrame {
         titulo_pesq_usuario.setToolTipText("");
 
         varNome.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        varNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varNomeActionPerformed(evt);
+            }
+        });
 
         label_nome.setText("Nome:");
 
@@ -127,7 +135,7 @@ public class PesquisaCliente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(titulo_pesq_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6))))
         );
         layout.setVerticalGroup(
@@ -206,19 +214,23 @@ public class PesquisaCliente extends javax.swing.JFrame {
         int linhaSelecionada = tbCliente.getSelectedRow();
 
         if (linhaSelecionada < 0) {
-            JOptionPane.showMessageDialog(null, "Selecione alguem para alterar");
+            JOptionPane.showMessageDialog(null, "Selecione linha para alterar");
         } else {
             try {
                 sessao = HibernateUtil.abrirConexao();
                 cliente = clientes.get(linhaSelecionada);
-                new CadastroCliente(cliente).setVisible(true);
+                new CadastroCliente(cliente).setVisible(true);                
             } catch (HibernateException e) {
-                System.out.println("Erro ao excluir usuário " + e.getMessage());
+                System.out.println("Erro ao selecionar linha " + e.getMessage());
             } finally {
                 sessao.close();
             }
         }
     }//GEN-LAST:event_btAlterarActionPerformed
+
+    private void varNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varNomeActionPerformed
     private void carregarTabelaCliente(List<Cliente> clientes) {
 
         DefaultTableModel defaultTable = (DefaultTableModel) tbCliente.getModel();

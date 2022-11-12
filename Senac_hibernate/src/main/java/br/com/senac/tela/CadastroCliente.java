@@ -34,6 +34,8 @@ public class CadastroCliente extends javax.swing.JFrame {
     private List<Profissao> profissoes;
     private ClienteDao clienteDao;
     private Cliente cliente;
+    private Telefone telefone;
+    private Endereco endereco; 
 
     public CadastroCliente() {
         initComponents();
@@ -43,36 +45,39 @@ public class CadastroCliente extends javax.swing.JFrame {
     CadastroCliente(Cliente cliente) {
         initComponents();
         carregarComboProfissao();
-        carregarAlteracaoPerfil(cliente);
+        carregarAlteracaoCliente(cliente);
         btSalvar.setText("Alterar");
         tituto_cadastro.setText("Alterar Cliente");
         setTitle("Alterar Cliente");
     }
 
-    private void carregarAlteracaoPerfil(Cliente cliente) {
+    private void carregarAlteracaoCliente(Cliente cliente) {
         this.cliente = cliente;
-        varNome.setText(cliente.getNome());
-        varCpf.setText(cliente.getCpf());
-        varRg.setText(cliente.getRg());
-        varSalario.setText(String.valueOf(cliente.getSalario()));
-
-        varProfissao.getModel().setSelectedItem(cliente.getProfissao().getNome());
-
-        varTelefone.setText(cliente.getTelefone().getNumero());
-        varTipo.setText(cliente.getTelefone().getTipo());
-        varOperadora.setText(cliente.getTelefone().getOperadora());
-        varDdd.setText(cliente.getTelefone().getDdd());
-
-        varCep.setText(cliente.getEndereco().getCep());
-        varBairro.setText(cliente.getEndereco().getBairro());
-        varCidade.setText(cliente.getEndereco().getLocalidade());
-        varUf.setText(cliente.getEndereco().getUf());
-        varObservacao.setText(cliente.getEndereco().getObservacao());
-        varComplemento.setText(cliente.getEndereco().getComplemento());
-        varEndereco.setText(cliente.getEndereco().getLogradouro());
-        varNumero.setText(cliente.getEndereco().getNumero());
+        endereco = cliente.getEndereco();
+        telefone = cliente.getTelefone();
+        carregarCliente(cliente);
 
         btCancelar.setEnabled(false);
+    }
+
+    private void carregarCliente(Cliente cliente1) {
+        varNome.setText(cliente1.getNome());
+        varCpf.setText(cliente1.getCpf());
+        varRg.setText(cliente1.getRg());
+        varSalario.setText(String.valueOf(cliente1.getSalario()));
+        varProfissao.getModel().setSelectedItem(cliente1.getProfissao().getNome());
+        varTelefone.setText(cliente1.getTelefone().getNumero());
+        varTipo.setText(cliente1.getTelefone().getTipo());
+        varOperadora.setText(cliente1.getTelefone().getOperadora());
+        varDdd.setText(cliente1.getTelefone().getDdd());
+        varCep.setText(cliente1.getEndereco().getCep());
+        varBairro.setText(cliente1.getEndereco().getBairro());
+        varCidade.setText(cliente1.getEndereco().getLocalidade());
+        varUf.setText(cliente1.getEndereco().getUf());
+        varObservacao.setText(cliente1.getEndereco().getObservacao());
+        varComplemento.setText(cliente1.getEndereco().getComplemento());
+        varEndereco.setText(cliente1.getEndereco().getLogradouro());
+        varNumero.setText(cliente1.getEndereco().getNumero());
     }
 
     /**
@@ -218,6 +223,12 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         lb_perfil8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_perfil8.setText("Endereço:");
+
+        varEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varEnderecoActionPerformed(evt);
+            }
+        });
 
         lb_perfil9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_perfil9.setText("Bairro:");
@@ -476,45 +487,49 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         clienteDao = new ClienteDaoImpl();
-        Telefone telefone = new Telefone();
-        Endereco endereco = new Endereco();
         sessao = HibernateUtil.abrirConexao();
         if (validarFormulario()) {
             if (cliente == null) {
                 cliente = new Cliente();
+                endereco = new Endereco();
+                telefone = new Telefone();
             }
 
-            cliente.setNome(varNome.getText());
-            cliente.setCpf((varCpf.getText().replace("-", "")).replace(".", ""));
-            cliente.setRg(varRg.getText());
-            cliente.setSalario(Double.valueOf(varSalario.getText().replace(",", ".")));
-            int indice = varProfissao.getSelectedIndex();
-            indice--;
-            cliente.setProfissao(profissoes.get(indice));
+            salvarCliente(telefone, endereco);            
 
-            telefone.setNumero(varTelefone.getText());
-            telefone.setDdd((varDdd.getText().replace("(", "")).replace(")", ""));
-            telefone.setOperadora(varOperadora.getText());
-            telefone.setTipo(varTipo.getText());
-            cliente.setTelefone(telefone);
-
-            endereco.setNumero(varNumero.getText());
-            endereco.setComplemento(varComplemento.getText());
-            endereco.setObservacao(varObservacao.getText());
-            endereco.setBairro(varBairro.getText());
-            endereco.setCep((varCep.getText().replace(".", "")).replace("-", ""));
-            endereco.setLocalidade(varCidade.getText());
-            endereco.setLogradouro(varEndereco.getText());
-            endereco.setUf(varUf.getText());
-            cliente.setEndereco(endereco);
-
-            clienteDao.salvarOuAlterar(cliente, sessao);
+            clienteDao.salvarOuAlterar(cliente, sessao);            
 
             dispose();
             JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
             sessao.close();
         }
     }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void salvarCliente(Telefone telefone, Endereco endereco) throws NumberFormatException {
+        cliente.setNome(varNome.getText());
+        cliente.setCpf((varCpf.getText().replace("-", "")).replace(".", ""));
+        cliente.setRg(varRg.getText());
+        cliente.setSalario(Double.valueOf(varSalario.getText().replace(",", ".")));
+        int indice = varProfissao.getSelectedIndex();
+        indice--;
+        cliente.setProfissao(profissoes.get(indice));
+        
+        telefone.setNumero(varTelefone.getText());
+        telefone.setDdd((varDdd.getText().replace("(", "")).replace(")", ""));
+        telefone.setOperadora(varOperadora.getText());
+        telefone.setTipo(varTipo.getText());
+        cliente.setTelefone(telefone);
+        
+        endereco.setNumero(varNumero.getText());
+        endereco.setComplemento(varComplemento.getText());
+        endereco.setObservacao(varObservacao.getText());
+        endereco.setBairro(varBairro.getText());
+        endereco.setCep((varCep.getText().replace(".", "")).replace("-", ""));
+        endereco.setLocalidade(varCidade.getText());
+        endereco.setLogradouro(varEndereco.getText());
+        endereco.setUf(varUf.getText());
+        cliente.setEndereco(endereco);
+    }
     private boolean validarFormulario() {
 
         int indice = varProfissao.getSelectedIndex();
@@ -645,6 +660,10 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void varSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varSalarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_varSalarioActionPerformed
+
+    private void varEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varEnderecoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varEnderecoActionPerformed
 
     /**
      * @param args the command line arguments
